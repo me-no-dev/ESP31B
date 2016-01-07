@@ -20,6 +20,25 @@ git clone https://github.com/me-no-dev/ESP31B.git
 
 #### Also Compatible with the Arduino Eclipse plugin ####
 
+
+#### Notes on compatibility ####
+
+The following hardware should be working:
+- HSPI and VSPI SPI busses attached to any pin
+- UART 0 and 1 (0 is attached to pins 1 and 3) UART 1 can be attached to any pins
+- pinMode/digitalRead/digitalWrite/attachInterrupt
+- analogRead (duh) SDK functions are exposed (same goes for touch pads)
+- 4 types of PWM! SigmaDelta, LEDC_HF, LEDC_LF and the old style based on timer (currently the one attached to analogWrite)
+- ccompare and 1 hardware timers with Interrupts
+- pinMatrix functions for easy signal routing (those are mostly the same as the ones in the driver lib)
+
+Mostly everything should work the same as on ESP8266. Some methods are removed from the ESP and WiFi classes as they are not available anymore.
+UDP Multicasts are not build into lwip yet so any service that depends on them would not work (mDNS, SSDP and such).
+ArduinoOTA is also not working yet as it requires different rom layout.
+
+Included inside is my Async TCP and Web server as well (regular blocking server and client are there also) for those that want to run full speed and handle more than one client at a time.
+
+
 ### License and credits ###
 
 Most of the original source comes from the [ESP8266 Arduino Project](https://github.com/esp8266/Arduino) so hats off to @igrr, @Links2004, me and many others
