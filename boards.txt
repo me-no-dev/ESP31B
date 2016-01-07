@@ -1,0 +1,72 @@
+menu.UploadSpeed=Upload Speed
+menu.CpuFrequency=CPU Frequency
+menu.FlashSize=Flash Size
+menu.FlashMode=Flash Mode
+menu.FlashFreq=Flash Frequency
+
+##############################################################
+esp31b.name=Beta ESP31B Module
+
+esp31b.upload.tool=esptool
+esp31b.upload.speed=115200
+esp31b.upload.maximum_size=1044464
+esp31b.upload.maximum_data_size=81920
+esp31b.upload.wait_for_upload_port=true
+esp31b.serial.disableDTR=true
+esp31b.serial.disableRTS=true
+
+esp31b.build.mcu=esp31b
+esp31b.build.f_cpu=80000000L
+esp31b.build.board=ESP31B_DEV
+esp31b.build.core=esp31b
+esp31b.build.variant=esp31b
+esp31b.build.spiffs_pagesize=256
+esp31b.build.spiffs_blocksize=8192
+
+esp31b.menu.CpuFrequency.80=80 MHz
+esp31b.menu.CpuFrequency.80.build.f_cpu=80000000L
+esp31b.menu.CpuFrequency.160=160 MHz
+esp31b.menu.CpuFrequency.160.build.f_cpu=160000000L
+
+esp31b.menu.FlashFreq.40=40MHz
+esp31b.menu.FlashFreq.40.build.flash_freq=40m
+esp31b.menu.FlashFreq.80=80MHz
+esp31b.menu.FlashFreq.80.build.flash_freq=80m
+
+esp31b.menu.FlashMode.qio=QIO
+esp31b.menu.FlashMode.qio.build.flash_mode=qio
+esp31b.menu.FlashMode.dio=DIO
+esp31b.menu.FlashMode.dio.build.flash_mode=dio
+
+esp31b.menu.UploadSpeed.115200=115200
+esp31b.menu.UploadSpeed.115200.upload.speed=115200
+esp31b.menu.UploadSpeed.256000.windows=256000
+esp31b.menu.UploadSpeed.256000.upload.speed=256000
+esp31b.menu.UploadSpeed.230400.linux=230400
+esp31b.menu.UploadSpeed.230400.macosx=230400
+esp31b.menu.UploadSpeed.230400.upload.speed=230400
+esp31b.menu.UploadSpeed.460800.linux=460800
+esp31b.menu.UploadSpeed.460800.macosx=460800
+esp31b.menu.UploadSpeed.460800.upload.speed=460800
+esp31b.menu.UploadSpeed.512000.windows=512000
+esp31b.menu.UploadSpeed.512000.upload.speed=512000
+esp31b.menu.UploadSpeed.921600=921600
+esp31b.menu.UploadSpeed.921600.upload.speed=921600
+
+esp31b.menu.FlashSize.2M=2M (1M SPIFFS)
+esp31b.menu.FlashSize.2M.build.flash_size=2m
+esp31b.menu.FlashSize.2M.build.flash_ld=eagle.pro.v7.2m.ld
+esp31b.menu.FlashSize.2M.build.spiffs_start=0x100000
+esp31b.menu.FlashSize.2M.build.spiffs_end=0x1FB000
+
+esp31b.menu.FlashSize.4M1M=4M (1M SPIFFS)
+esp31b.menu.FlashSize.4M1M.build.flash_size=2m
+esp31b.menu.FlashSize.4M1M.build.flash_ld=eagle.pro.v7.ld
+esp31b.menu.FlashSize.4M1M.build.spiffs_start=0x300000
+esp31b.menu.FlashSize.4M1M.build.spiffs_end=0x3FB000
+
+esp31b.menu.FlashSize.4M3M=4M (3M SPIFFS)
+esp31b.menu.FlashSize.4M3M.build.flash_size=8m
+esp31b.menu.FlashSize.4M3M.build.flash_ld=eagle.pro.v7.ld
+esp31b.menu.FlashSize.4M3M.build.spiffs_start=0x100000
+esp31b.menu.FlashSize.4M3M.build.spiffs_end=0x3FB000
