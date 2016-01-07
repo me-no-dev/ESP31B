@@ -4,7 +4,7 @@
 
 ###This project brings support for ESP31B chip to the Arduino environment. It lets you write sketches using familiar Arduino functions and libraries, and run them directly on ESP31B, no external microcontroller required.###
 
-- Compile the toolchain for your platform (you should have that already if you have done any programming for it) [Instructions](https://github.com/espressif/ESP32_RTOS_SDK)
+- Compile the toolchain for your platform (you should have that already if you have done any programming for it) [Instructions](https://github.com/espressif/ESP32_RTOS_SDK#toolchain)
 - Install Arduino 1.6.5+
 - Go to Arduino directory
 - Clone this repository into hardware/espressif/ESP31B directory (or clone it elsewhere and create a symlink)
