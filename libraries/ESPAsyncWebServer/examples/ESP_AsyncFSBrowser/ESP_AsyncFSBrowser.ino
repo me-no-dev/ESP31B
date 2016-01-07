@@ -1,9 +1,7 @@
 #include <ESP31BWiFi.h>
-#include <ESP31BmDNS.h>
-#include <ArduinoOTA.h>
-#include <FS.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <FS.h>
 
 // WEB HANDLER IMPLEMENTATION
 class SPIFFSEditor: public AsyncWebHandler {
@@ -16,15 +14,15 @@ class SPIFFSEditor: public AsyncWebHandler {
     bool canHandle(AsyncWebServerRequest *request){
       if(request->method() == HTTP_GET && request->url() == "/edit" && (SPIFFS.exists("/edit.htm") || SPIFFS.exists("/edit.htm.gz")))
         return true;
-      else if(request->method() == HTTP_GET && request->url() == "/list")
+      if(request->method() == HTTP_GET && request->url() == "/list")
         return true;
-      else if(request->method() == HTTP_GET && (request->url().endsWith("/") || SPIFFS.exists(request->url()) || (!request->hasParam("download") && SPIFFS.exists(request->url()+".gz"))))
+      if(request->method() == HTTP_GET && (request->url().endsWith("/") || SPIFFS.exists(request->url()) || (!request->hasParam("download") && SPIFFS.exists(request->url()+".gz"))))
         return true;
-      else if(request->method() == HTTP_POST && request->url() == "/edit")
+      if(request->method() == HTTP_POST && request->url() == "/edit")
         return true;
-      else if(request->method() == HTTP_DELETE && request->url() == "/edit")
+      if(request->method() == HTTP_DELETE && request->url() == "/edit")
         return true;
-      else if(request->method() == HTTP_PUT && request->url() == "/edit")
+      if(request->method() == HTTP_PUT && request->url() == "/edit")
         return true;
       return false;
     }
@@ -65,7 +63,7 @@ class SPIFFSEditor: public AsyncWebHandler {
         request->send(SPIFFS, path, String(), request->hasParam("download"));
       } else if(request->method() == HTTP_DELETE){
         if(request->hasParam("path", true)){
-          ESP.wdtDisable(); SPIFFS.remove(request->getParam("path", true)->value()); ESP.wdtEnable(10);
+          SPIFFS.remove(request->getParam("path", true)->value());
           request->send(200, "", "DELETE: "+request->getParam("path", true)->value());
         } else
           request->send(404);
@@ -101,7 +99,7 @@ class SPIFFSEditor: public AsyncWebHandler {
         request->_tempFile = SPIFFS.open(filename, "w");
       }
       if(_uploadAuthenticated && request->_tempFile && len){
-        ESP.wdtDisable(); request->_tempFile.write(data,len); ESP.wdtEnable(10);
+        request->_tempFile.write(data,len);
       }
       if(_uploadAuthenticated && final)
         if(request->_tempFile) request->_tempFile.close();
@@ -117,36 +115,16 @@ const char* password = "************";
 const char* http_username = "admin";
 const char* http_password = "admin";
 
-
-extern "C" void system_set_os_print(uint8 onoff);
-extern "C" void ets_install_putc1(void* routine);
-
-//Use the internal hardware buffer
-static void _u0_putc(char c){
-  while(((U0S >> USTXC) & 0x7F) == 0x7F);
-  U0F = c;
-}
-
-void initSerial(){
-  Serial.begin(115200);
-  ets_install_putc1((void *) &_u0_putc);
-  system_set_os_print(1);
-}
-
 void setup(){
-  initSerial();
+  Serial.begin(115200);
+  Serial.setDebugOutput(true);
   SPIFFS.begin();
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
-  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.printf("STA: Failed!\n");
-    WiFi.disconnect(false);
-    delay(1000);
-    WiFi.begin(ssid, password);
+  if(WiFi.waitForConnectResult() != WL_CONNECTED){
+    Serial.printf("WiFi Failed!\n");
   }
-  ArduinoOTA.begin();
-  //Serial.printf("format start\n"); SPIFFS.format();  Serial.printf("format end\n");
-
+  
   server.serveStatic("/fs", SPIFFS, "/");
 
   server.on("/heap", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -217,7 +195,5 @@ void setup(){
   server.begin();
 }
 
-void loop(){
-  ArduinoOTA.handle();
-}
+void loop(){}
 
