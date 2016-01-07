@@ -4,7 +4,7 @@
 
 ###This project brings support for ESP31B chip to the Arduino environment. It lets you write sketches using familiar Arduino functions and libraries, and run them directly on ESP31B, no external microcontroller required.###
 
-- Compile the toolchain for your platform (you should have that already if you have done any programming for it)
+- Compile the toolchain for your platform (you should have that already if you have done any programming for it) [Instructions](https://github.com/espressif/ESP32_RTOS_SDK)
 - Install Arduino 1.6.5+
 - Go to Arduino directory
 - Clone this repository into hardware/espressif/ESP31B directory (or clone it elsewhere and create a symlink)
@@ -24,7 +24,7 @@ git clone https://github.com/me-no-dev/ESP31B.git
 #### Notes on compatibility ####
 
 The following hardware should be working:
-- HSPI and VSPI SPI busses attached to any pin
+- HSPI and VSPI SPI busses attached to any pin (VSPI is the devault SPI bus)
 - UART 0 and 1 (0 is attached to pins 1 and 3) UART 1 can be attached to any pins
 - pinMode/digitalRead/digitalWrite/attachInterrupt
 - analogRead (duh) SDK functions are exposed (same goes for touch pads)
@@ -37,6 +37,15 @@ UDP Multicasts are not build into lwip yet so any service that depends on them w
 ArduinoOTA is also not working yet as it requires different rom layout.
 
 Included inside is my Async TCP and Web server as well (regular blocking server and client are there also) for those that want to run full speed and handle more than one client at a time.
+
+- The noted pins for HSPI and VSPI are the default ones and can be changed with SPI.begin(sck, miso, mosi, ss) (ss can be defined with -1)
+- Pins 32 and 33 have been routed differently on the module and you need to have some high soldering skills to put a couple of resistors to make the pins work
+- Pins 6-11 are used by the onboard flash module (which I ws able to run only as 2MB)
+- Pins 1,2 and 5 can be floating, but if connected to external hardware, the noted levels need to be active at boot for the chip to enter proper boot mode
+- Only the first 8 pin interrupts/counters are implemnted but it's at the top of my ToDo list to enable all 16
+- LedC PWM, SigmeDelta and Touch need to be wrapped in classes
+
+![Pin Functions](doc/esp32b_pinmap.png)
 
 
 ### License and credits ###
