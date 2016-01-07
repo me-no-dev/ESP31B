@@ -18,8 +18,8 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-#ifndef SIGMA_DELTA_H_
-#define SIGMA_DELTA_H_
+#ifndef ESP31B_LEDC_H_
+#define ESP31B_LEDC_H_
 #include "Arduino.h"
 
 #include "c_types.h"
