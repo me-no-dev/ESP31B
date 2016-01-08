@@ -79,7 +79,7 @@ uint32_t ICACHE_FLASH_ATTR i2s_slc_queue_next_item(){ //pop the top off the queu
 //This routine is called as soon as the DMA routine has something to tell us. All we
 //handle here is the RX_EOF_INT status, which indicate the DMA has sent a buffer whose
 //descriptor has the 'EOF' field set to 1.
-void ICACHE_FLASH_ATTR i2s_slc_isr(void) {
+void ICACHE_FLASH_ATTR i2s_slc_isr(void *arg) {
   uint32_t slc_intr_status = I2SIS;
   I2SIC = 0xFFFFFFFF;
   if (slc_intr_status & I2SITE) {
