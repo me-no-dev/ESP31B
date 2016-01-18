@@ -5,9 +5,10 @@
 ###This project brings support for ESP31B chip to the Arduino environment. It lets you write sketches using familiar Arduino functions and libraries, and run them directly on ESP31B, no external microcontroller required.###
 
 - Compile the toolchain for your platform [Instructions](https://github.com/espressif/ESP32_RTOS_SDK#toolchain) or download one of the toolchains below:
-  * [Mac OS X](http://static.ficeto.com/xtensa-esp108-elf-osx.zip)
+  * [Mac OS X](http://static.ficeto.com/xtensa-esp108-elf-osx.tar.gz)
   * [Linux 32](http://static.ficeto.com/xtensa-esp108-elf-linux32.tar.gz)
   * [Linux 64](http://static.ficeto.com/xtensa-esp108-elf-linux64.tar.gz)
+  * [RaspberryPi 2](http://static.ficeto.com/xtensa-esp108-elf-pi2.tar.gz)
   * [Windows 32](http://static.ficeto.com/xtensa-esp108-elf-cygwin32.zip) !! Requires [Cygwin x86](https://cygwin.com/setup-x86.exe) to be installed (defaults are enough) and C:\cygwin\bin to be added to Path
   * [Windows 64](http://static.ficeto.com/xtensa-esp108-elf-cygwin64.zip) !! Requires [Cygwin x86_64](https://cygwin.com/setup-x86_64.exe) to be installed (defaults are enough) and C:\cygwin64\bin to be added to Path
 - Install Arduino 1.6.5+
