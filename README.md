@@ -4,7 +4,12 @@
 
 ###This project brings support for ESP31B chip to the Arduino environment. It lets you write sketches using familiar Arduino functions and libraries, and run them directly on ESP31B, no external microcontroller required.###
 
-- Compile the toolchain for your platform (you should have that already if you have done any programming for it) [Instructions](https://github.com/espressif/ESP32_RTOS_SDK#toolchain)
+- Compile the toolchain for your platform [Instructions](https://github.com/espressif/ESP32_RTOS_SDK#toolchain) or download one of the toolchains below:
+  * [Mac OS X](http://static.ficeto.com/xtensa-esp108-elf-osx.zip)
+  * [Linux 32](http://static.ficeto.com/xtensa-esp108-elf-linux32.tar.gz)
+  * [Linux 64](http://static.ficeto.com/xtensa-esp108-elf-linux64.tar.gz)
+  * [Windows 32](http://static.ficeto.com/xtensa-esp108-elf-cygwin32.zip) !! Requires [Cygwin x86](https://cygwin.com/setup-x86.exe) to be installed (defaults are enough) and C:\cygwin\bin to be added to Path
+  * [Windows 64](http://static.ficeto.com/xtensa-esp108-elf-cygwin64.zip) !! Requires [Cygwin x86_64](https://cygwin.com/setup-x86_64.exe) to be installed (defaults are enough) and C:\cygwin64\bin to be added to Path
 - Install Arduino 1.6.5+
 - Go to Arduino directory
 - Clone this repository into hardware/espressif/ESP31B directory (or clone it elsewhere and create a symlink)
@@ -15,7 +20,7 @@ cd espressif
 git clone https://github.com/me-no-dev/ESP31B.git
 ```
 - Install Python 2.7 and have it included in the PATH
-- Copy your compiled toolchain into hardware/espressif/ESP31B/tools directory
+- Extract/Copy the toolchain into hardware/espressif/ESP31B/tools directory
 - Restart Arduino
 
 #### Also Compatible with the Arduino Eclipse plugin ####
@@ -50,7 +55,7 @@ Included inside is my Async TCP and Web server as well (regular blocking server 
 
 ### License and credits ###
 
-Most of the original source comes from the [ESP8266 Arduino Project](https://github.com/esp8266/Arduino) so hats off to @igrr, @Links2004, me and many others
+Most of the original source comes from the [ESP8266 Arduino Project](https://github.com/esp8266/Arduino) so hats off to @igrr, @Links2004, @me(no-dev) and many others
 
 Arduino IDE is developed and maintained by the Arduino team. The IDE is licensed under GPL.
 
