@@ -159,14 +159,14 @@ def gen_appbin():
     irom0text_bin_name = build_path + '/eagle.app.v7.irom0text.bin'
     irom1text_bin_name = build_path + '/eagle.app.v7.irom1text.bin'
     
-    os.system('rm -rf ' + elf_file + '.*.bin')
-    os.system('rm -rf ' + build_path + '/eagle.app.v7.*.bin')
+    os.system('rm -rf "' + elf_file + '.*.bin"')
+    os.system('rm -rf "' + build_path + '/eagle.app.v7.*.bin"')
     
-    os.system(toolchain_path + '/xtensa-esp108-elf-objcopy --only-section .text -O binary ' + elf_file + ' ' + text_bin_name)
-    os.system(toolchain_path + '/xtensa-esp108-elf-objcopy --only-section .data -O binary ' + elf_file + ' ' + data_bin_name)
-    os.system(toolchain_path + '/xtensa-esp108-elf-objcopy --only-section .rodata -O binary ' + elf_file + ' ' + rodata_bin_name)
-    os.system(toolchain_path + '/xtensa-esp108-elf-objcopy --only-section .irom0.text -O binary ' + elf_file + ' ' + irom0text_bin_name)
-    os.system(toolchain_path + '/xtensa-esp108-elf-objcopy --only-section .irom1.text -O binary ' + elf_file + ' ' + irom1text_bin_name)
+    os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .text -O binary ' + elf_file + ' ' + text_bin_name)
+    os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .data -O binary ' + elf_file + ' ' + data_bin_name)
+    os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .rodata -O binary ' + elf_file + ' ' + rodata_bin_name)
+    os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .irom0.text -O binary ' + elf_file + ' ' + irom0text_bin_name)
+    os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .irom1.text -O binary ' + elf_file + ' ' + irom1text_bin_name)
     
     flash_bin_name = elf_file + '.ota.bin'
     Dcache_bin_name = elf_file + '.0x04000.bin'
@@ -179,7 +179,7 @@ def gen_appbin():
     data_str = ''
     sum_size = 0
 
-    os.system(toolchain_path + '/xtensa-esp108-elf-nm -g ' + elf_file + ' > ' + elf_file + '.sym')
+    os.system('"' + toolchain_path + '/xtensa-esp108-elf-nm" -g ' + elf_file + ' > ' + elf_file + '.sym')
 
     fp = file(elf_file + '.sym')
     if fp is None:
