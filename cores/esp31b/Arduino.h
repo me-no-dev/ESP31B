@@ -131,6 +131,8 @@ extern "C" {
 #define interrupts() xt_rsil(0)
 #define noInterrupts() xt_rsil(15)
 
+#define yield() do {} while(0)
+#define optimistic_yield(a) yield()
 
 #define clockCyclesPerMicrosecond() ( F_CPU / 1000000L )
 #define clockCyclesToMicroseconds(a) ( (a) / clockCyclesPerMicrosecond() )
