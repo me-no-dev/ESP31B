@@ -42,8 +42,6 @@ Mostly everything should work the same as on ESP8266. Some methods are removed f
 UDP Multicasts are not build into lwip yet so any service that depends on them would not work (mDNS, SSDP and such).
 ArduinoOTA is also not working yet as it requires different rom layout.
 
-Included inside is my Async TCP and Web server as well (regular blocking server and client are there also) for those that want to run full speed and handle more than one client at a time.
-
 - The noted pins for HSPI and VSPI are the default ones and can be changed with SPI.begin(sck, miso, mosi, ss) (ss can be defined with -1)
 - Pins 32 and 33 have been routed differently on the module and you need to have some high soldering skills to put a couple of resistors to make the pins work
 - Pins 6-11 are used by the onboard flash module (which I ws able to run only as 2MB)
@@ -53,6 +51,9 @@ Included inside is my Async TCP and Web server as well (regular blocking server 
 
 ![Pin Functions](doc/esp32b_pinmap.png)
 
+Compatible with the following Async TCP library and WebServer
+- [Async TCP Library](https://github.com/me-no-dev/ESPAsyncTCP)
+- [Async Web Server](https://github.com/me-no-dev/ESPAsyncWebServer)
 
 ### License and credits ###
 
