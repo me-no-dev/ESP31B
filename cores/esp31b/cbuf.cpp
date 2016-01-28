@@ -66,7 +66,7 @@ size_t cbuf::resize(size_t newSize) {
     return _size;
 }
 
-size_t ICACHE_RAM_ATTR cbuf::available() const {
+size_t cbuf::available() const {
     if(_end >= _begin) {
         return _end - _begin;
     }
@@ -107,7 +107,7 @@ size_t cbuf::peek(char *dst, size_t size) {
     return size_read;
 }
 
-int ICACHE_RAM_ATTR cbuf::read() {
+int cbuf::read() {
     if(empty())
         return -1;
 
@@ -132,7 +132,7 @@ size_t cbuf::read(char* dst, size_t size) {
     return size_read;
 }
 
-size_t ICACHE_RAM_ATTR cbuf::write(char c) {
+size_t cbuf::write(char c) {
     if(full())
         return 0;
 
