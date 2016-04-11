@@ -30,6 +30,7 @@ import zlib
 
 
 TEXT_ADDRESS = 0x40040000
+TEXT_ADDRESS_APPCPU = 0x3FFA8000
 # app_entry = 0
 # data_address = 0x3ffb0000
 # data_end  = 0x40000000
@@ -118,9 +119,10 @@ def gen_appbin():
     global irom0_addr
     global irom1_addr
 
-    if len(sys.argv) != 5:
-        print 'Usage: gen_appbin.py app.elf eagle.ld build_path toolchain_path'
+    if len(sys.argv) != 7:
+        print 'Usage: gen_appbin.py app.elf pro.ld build_path toolchain_path cpu combine'
         sys.exit(0)
+        
 
     elf_file = sys.argv[1]
     
@@ -129,6 +131,9 @@ def gen_appbin():
     
     build_path = sys.argv[3]
     toolchain_path = sys.argv[4]
+
+    app_cpu_flag = int(sys.argv[5])
+    combine_bin_flag = int(sys.argv[6])
     
     match = re.search("irom0_0_seg.+?org = (0x[0-9a-fA-F]+),",ld_data)
     if match is not None:
@@ -140,12 +145,12 @@ def gen_appbin():
         irom0_len = match.group(1)
         irom0_len = int(irom0_len,base=16)
         #print irom0_len
-    match = re.search("irom0_1_seg.+?org = (0x[0-9a-fA-F]+),",ld_data)
+    match = re.search("drom0_0_seg.+?org = (0x[0-9a-fA-F]+),",ld_data)
     if match is not None:
         irom1_addr = match.group(1)
         #irom1_addr = int(addr,base=16)
         #print irom1_addr
-    match = re.search("irom0_1_seg.+?len = (0x[0-9a-fA-F]+)",ld_data)
+    match = re.search("drom0_0_seg.+?len = (0x[0-9a-fA-F]+)",ld_data)
     if match is not None:
         irom1_len = match.group(1)
         irom1_len = int(irom1_len,base=16)
@@ -153,9 +158,10 @@ def gen_appbin():
     flash_data_line  = 16
     data_line_bits = 0xf
 
-    flash_bin_name = elf_file + '.ota.bin'
-    Dcache_bin_name = elf_file + '.0x04000.bin'
-    Icache_flash_bin_name = elf_file + '.0x40000.bin'
+    app_bin_file = elf_file + '.app.bin'
+    flash_bin_name = elf_file + '.flash.bin'
+    Dcache_bin_name = elf_file + '.drom.bin'
+    Icache_flash_bin_name = elf_file + '.irom.bin'
     text_bin_name = build_path + '/eagle.app.v7.text.bin'
     data_bin_name = build_path + '/eagle.app.v7.data.bin'
     rodata_bin_name = build_path + '/eagle.app.v7.rodata.bin'
@@ -175,12 +181,13 @@ def gen_appbin():
     os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .data -O binary ' + elf_file + ' ' + data_bin_name)
     os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .rodata -O binary ' + elf_file + ' ' + rodata_bin_name)
     os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .irom0.text -O binary ' + elf_file + ' ' + irom0text_bin_name)
-    os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .irom1.text -O binary ' + elf_file + ' ' + irom1text_bin_name)
+    os.system('"' + toolchain_path + '/xtensa-esp108-elf-objcopy" --only-section .drom0.text -O binary ' + elf_file + ' ' + irom1text_bin_name)
     
 
     BIN_MAGIC_FLASH  = 0xE9
     BIN_MAGIC_IROM0  = 0xEA
-    BIN_MAGIC_IROM1  = 0xEC
+    BIN_MAGIC_DROM0  = 0xEC
+    BIN_MAGIC_APPCPU = 0xE1
     data_str = ''
     sum_size = 0
 
@@ -214,6 +221,16 @@ def gen_appbin():
         if m != None:
             data_start_addr = m.group(1)
             #print 'data start: %s' % data_start_addr
+            if app_cpu_flag != 1:
+                data_start_addr = m.group(1)
+                data_start_addr = long(data_start_addr,16)
+            elif app_cpu_flag == 1 and long(data_start_addr,16) >=0x3FF80000 and long(data_start_addr,16) <= 0x3FF97FFF: 
+                data_start_addr = long(data_start_addr,16) + 0x28000
+            elif app_cpu_flag == 1 and long(data_start_addr,16) >=0x3FF98000 and long(data_start_addr,16) <= 0x3FFBC000: 
+                data_start_addr = long(data_start_addr,16) - 0x18000
+            else:               
+                data_start_addr = m.group(1)
+                data_start_addr = long(data_start_addr,16)
                         
 
     rodata_start_addr = '0'
@@ -223,6 +240,16 @@ def gen_appbin():
         if m != None:
             rodata_start_addr = m.group(1)
             #print 'rodata start: %s' % rodata_start_addr
+            if app_cpu_flag != 1:
+                rodata_start_addr = m.group(1)
+                rodata_start_addr = long(rodata_start_addr,16)
+            elif app_cpu_flag == 1 and long(rodata_start_addr,16) >=0x3FF80000 and long(rodata_start_addr,16) <= 0x3FF97FFF: 
+                rodata_start_addr = long(rodata_start_addr,16) + 0x28000
+            elif app_cpu_flag == 1 and long(rodata_start_addr,16) >=0x3FF98000 and long(rodata_start_addr,16) <= 0x3FFBC000: 
+                rodata_start_addr = long(rodata_start_addr,16) - 0x18000
+            else:               
+                rodata_start_addr = m.group(1)
+                rodata_start_addr = long(rodata_start_addr,16)
                         
     if os.path.getsize(text_bin_name):
         blocks = blocks + 1
@@ -236,7 +263,7 @@ def gen_appbin():
     Dcache_data_len = fp1.tell()
     # print data_len
     if Dcache_data_len :       
-        Dcache_data_len = struct.pack('<BBBBI',BIN_MAGIC_IROM1,1,0,0,long(irom1_addr,16))
+        Dcache_data_len = struct.pack('<BBBBI',BIN_MAGIC_DROM0,1,0,0,long(irom1_addr,16))
         sum_size = len(Dcache_data_len)
         write_file(flash_bin_name,Dcache_data_len)
         #write_file(Dcache_bin_name,data_bin)
@@ -255,29 +282,35 @@ def gen_appbin():
         write_file(flash_bin_name,data_bin)
         #write_file(Icache_flash_bin_name,data_bin)
         # irom0.text.bin
-        icache_flash_size = data_len +  os.path.getsize(text_bin_name) + os.path.getsize(data_bin_name) + os.path.getsize(rodata_bin_name) + 36
+        if combine_bin_flag != 1:
+            icache_flash_size = data_len +  os.path.getsize(text_bin_name) + os.path.getsize(data_bin_name) + os.path.getsize(rodata_bin_name) + 60 + 8 * blocks
+        else :
+            icache_flash_size = data_len +  os.path.getsize(text_bin_name) + os.path.getsize(data_bin_name) + os.path.getsize(rodata_bin_name) + 60 + 8 * blocks + os.path.getsize(app_bin_file)
+        
         combine_bin(irom0text_bin_name,flash_bin_name,icache_flash_size,0)
         #combine_bin(irom0text_bin_name,Icache_flash_bin_name,0x0,0)     
 
     # text.bin
     
     
-    data_bin = struct.pack('<BBBBI',BIN_MAGIC_FLASH,blocks,0,0,long(entry_addr,16))
+    if app_cpu_flag != 1:  
+        data_bin = struct.pack('<BBBBI',BIN_MAGIC_FLASH,blocks,0,0,long(entry_addr,16))
+    else:
+        data_bin = struct.pack('<BBBBI',BIN_MAGIC_APPCPU,blocks,0,0,long(entry_addr,16))
     sum_size = len(data_bin)
     write_file(flash_bin_name,data_bin)
-    #write_file(Icache_flash_bin_name,data_bin)
     
-    combine_bin(text_bin_name,flash_bin_name,TEXT_ADDRESS,1)
-    #combine_bin(text_bin_name,Icache_flash_bin_name,TEXT_ADDRESS,0)
+    if app_cpu_flag != 1:
+        combine_bin(text_bin_name,flash_bin_name,TEXT_ADDRESS,1)
+    else: 
+        combine_bin(text_bin_name,flash_bin_name,TEXT_ADDRESS_APPCPU,1)
 
     # data.bin
     if data_start_addr:
-        combine_bin(data_bin_name,flash_bin_name,long(data_start_addr,16),1)
-        #combine_bin(data_bin_name,Icache_flash_bin_name,long(data_start_addr,16),0)
+        combine_bin(data_bin_name,flash_bin_name,data_start_addr,1)
 
     # rodata.bin
-    combine_bin(rodata_bin_name,flash_bin_name,long(rodata_start_addr,16),1)
-    #combine_bin(rodata_bin_name,Icache_flash_bin_name,long(rodata_start_addr,16),0)
+    combine_bin(rodata_bin_name,flash_bin_name,rodata_start_addr,1)
 
     # write checksum header
     sum_size = os.path.getsize(flash_bin_name) + 1
@@ -290,20 +323,34 @@ def gen_appbin():
     write_file(flash_bin_name,chr(chk_sum & 0xFF)) 
     #write_file(Icache_flash_bin_name,chr(chk_sum & 0xFF))   	  	
   
-    all_bin_crc = getFileCRC(flash_bin_name)
-    # print all_bin_crc
-    if all_bin_crc < 0:
-        all_bin_crc = abs(all_bin_crc) - 1
-    else :
-        all_bin_crc = abs(all_bin_crc) + 1
-    # print all_bin_crc
-    write_file(flash_bin_name,chr((all_bin_crc & 0x000000FF))+chr((all_bin_crc & 0x0000FF00) >> 8)+chr((all_bin_crc & 0x00FF0000) >> 16)+chr((all_bin_crc & 0xFF000000) >> 24))
-    icache_file = open(flash_bin_name, "rb")
-    if int(os.path.getsize(irom1text_bin_name)):
-        Dcache_bin_len = (int(os.path.getsize(irom1text_bin_name)) + 16 +15 ) &(~15)
-        #print Dcache_bin_len
-        icache_file.seek(Dcache_bin_len ,0)
-    open(Icache_flash_bin_name, "wb").write(icache_file.read())
-
+    if combine_bin_flag != 0:
+        print os.path.getsize(app_bin_file)
+        print os.path.getsize(flash_bin_name)
+        app_bin = open(app_bin_file, "rb")
+        write_file(flash_bin_name,app_bin.read())
+    
+    if app_cpu_flag != 1:
+        all_bin_crc = getFileCRC(flash_bin_name)
+        # print all_bin_crc
+        if all_bin_crc < 0:
+            all_bin_crc = abs(all_bin_crc) - 1
+        else :
+            all_bin_crc = abs(all_bin_crc) + 1
+        # print all_bin_crc
+        write_file(flash_bin_name,chr((all_bin_crc & 0x000000FF))+chr((all_bin_crc & 0x0000FF00) >> 8)+chr((all_bin_crc & 0x00FF0000) >> 16)+chr((all_bin_crc & 0xFF000000) >> 24))
+        icache_file = open(flash_bin_name, "rb")
+        if int(os.path.getsize(irom1text_bin_name)):
+            Dcache_bin_len = (int(os.path.getsize(irom1text_bin_name)) + 16 +15 ) &(~15)
+            #print Dcache_bin_len
+            icache_file.seek(Dcache_bin_len ,0)
+        open(Icache_flash_bin_name, "wb").write(icache_file.read())
+        
+        #print "boot.bin------------------>0x00000"
+        #if Dcache_data_len:
+        #    print "drom.bin------------------>0x04000"
+        #    print "irom.bin------------------>0x40000"
+        #else :
+        #    print "irom.bin------------------>0x04000"
+        
 if __name__=='__main__':
     gen_appbin()

@@ -135,7 +135,7 @@ bool system_get_chip_id(uint8 *chip_id);
   *
   * @return    RTC time.
   */
-uint32 system_get_rtc_time(void);
+uint64 system_get_rtc_time(void);
 
 /**
   * @brief     Read user data from the RTC memory.

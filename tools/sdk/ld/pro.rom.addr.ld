@@ -39,6 +39,9 @@ PROVIDE (software_reset_cpu = 0x40002998 );
 PROVIDE ( SPIEraseSector = 0x40004708 );
 PROVIDE ( SPIRead = 0x40004898 );
 PROVIDE ( SPIWrite = 0x40004738 );
+PROVIDE ( SPI_write_enable = 0x400041bc );
+PROVIDE ( SPI_write_status = 0x40003fd0 );
+PROVIDE ( SPI_read_status = 0x40003efc );
 
 PROVIDE ( uart_div_modify = 0x400034e8 );
 PROVIDE ( uart_tx_one_char = 0x4000362c );
@@ -48,4 +51,6 @@ PROVIDE ( __udivdi3 = 0x40006c30 );
 PROVIDE ( __umoddi3 = 0x40006e64 );
 
 PROVIDE ( _xtos_set_intlevel = 0x40006670 );
+
+PROVIDE ( flashchip = 0x3fffc848 );
 

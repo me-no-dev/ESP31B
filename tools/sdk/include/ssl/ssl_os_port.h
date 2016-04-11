@@ -88,12 +88,6 @@ static __inline__ uint64 be64toh(uint64 __x) {return (((uint64)be32toh(__x & (ui
 #define htobe64(x) be64toh(x)
 #endif
 
-/* Mutexing definitions */
-
-#define SSL_CTX_MUTEX_INIT(A)
-#define SSL_CTX_MUTEX_DESTROY(A)
-#define SSL_CTX_LOCK(A)
-#define SSL_CTX_UNLOCK(A)
 
 void *ax_malloc(size_t s, const char* file, int line);
 void *ax_realloc(void *y, size_t s, const char* file, int line);
@@ -113,6 +107,61 @@ void ax_free(void *p, const char* file, int line);
 #define SSL_CALLOC(element, size) calloc(element, size)
 #define SSL_ZALLOC(size) 		  malloc(size)
 #define SSL_FREE(mem_ref) 	 	  free(mem_ref)
+#endif
+
+#ifdef SOFTWARE_CRYPTO
+#else
+
+#define ETS_GPIO_NMI_INUM 22
+#define REG_SYNC	0x3fff7F00
+
+enum sync_opt{
+	SYNC_START = 0x00,
+	SYNC_KEY_SET = 0x01,
+	SYNC_KEY_CONVER = 0x02,
+	SYNC_DATA_DECRYPT = 0x04,
+	SYNC_DATA_ENCRYPT = 0x08,
+	SYNC_OPT_SUCCESS = 0x10,
+	SYNC_POWER_ENABLE,
+	SYNC_POWER_DISABLE,
+	SYNC_POWER_SETX,
+	SYNC_POWER_SETY,
+	SYNC_POWER_SETRB,
+	SYNC_POWER_SETM,
+	SYNC_POWER_SET_MODE,
+	SYNC_POWER_START,
+	SYNC_POWER_GETZ,
+	SYNC_POWER_MULT,
+	SYNC_OPT_ERROR = 0x80,
+	SYNC_END
+};
+
+void sys_sync_init(void *arg);
+void sys_sync_enter_lock(void *arg);
+void sys_sync_exit_lock(void *arg);
+
+void sys_sync_sem_init(void *arg);
+void sys_sync_sem_signal(void *arg);
+void sys_sync_sem_wait(void *arg);
+
+void sys_sync_resquest(void);
+
+void sys_sync_opt_thread(uint8 opt);
+
+bool sys_sync_thread(void);
+
+#define SSL_CTX_SYNC_THREAD(A)		sys_sync_thread(A)
+#define SSL_CTX_SYNC_OPT_THREAD(A)	sys_sync_opt_thread(A)
+#define SSL_CTX_SYNC_REQUEST(A)		sys_sync_resquest(A)
+
+#define SSL_CTX_SYNC_LOCK(A) 		sys_sync_enter_lock(A)
+#define SSL_CTX_SYNC_UNLOCK(A)		sys_sync_exit_lock(A)
+#define SSL_CTX_SYNC_INIT(A)		sys_sync_init(A)
+
+#define SSL_CTX_SYNC_SEM(A) 		sys_sync_sem_signal(A)
+#define SSL_CTX_SYNC_SEM_WAIT(A)	sys_sync_sem_wait(A)
+#define SSL_CTX_SYNC_SEM_INIT(A)	sys_sync_sem_init(A)
+
 #endif
 
 #ifdef __cplusplus

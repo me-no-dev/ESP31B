@@ -92,8 +92,11 @@ typedef enum {
 #define ICACHE_FLASH_ATTR
 #define ICACHE_RODATA_ATTR  __attribute__((section(".irom.text")))
 
-#define IRAM_ATTR           __attribute__((section(".text")))
+#define IRAM_ATTR           __attribute__((section(".iram1.text")))
 #define DRAM_ATTR           __attribute__((section(".data")))
+
+/* only uninitialized data can be put in .share.mem section */
+#define SHMEM_ATTR          __attribute__((section(".share.mem")))
 
 #ifndef __cplusplus
 #define BOOL            bool

@@ -32,7 +32,7 @@
 #ifndef __LWIPOPTS_H__
 #define __LWIPOPTS_H__
 
-#define LWIP_ESP31B
+#define LWIP_ESP
 /*
    -----------------------------------------------
    ---------- Platform specific locking ----------
@@ -57,6 +57,7 @@
  */
 #define SMEMCPY(dst,src,len)            memcpy(dst,src,len)
 
+extern unsigned long os_random(void);
 #define LWIP_RAND	os_random
 /*
    ------------------------------------
@@ -93,7 +94,7 @@
  * MEMP_NUM_TCP_PCB: the number of simulatenously active TCP connections.
  * (requires the LWIP_TCP option)
  */
-#define MEMP_NUM_TCP_PCB                (*(volatile uint32*)0x600011FC)
+#define MEMP_NUM_TCP_PCB                5
 
 /**
  * MEMP_NUM_NETCONN: the number of struct netconns.
@@ -176,28 +177,32 @@
 /**
  * DHCP_MAXRTX: Maximum number of retries of current request.
  */
-#define DHCP_MAXRTX						(*(volatile uint32*)0x600011E0)
+#define DHCP_MAXRTX						6
 
 /*
    ------------------------------------
    ---------- AUTOIP options ----------
    ------------------------------------
 */
+
 /*
    ----------------------------------
    ---------- SNMP options ----------
    ----------------------------------
 */
+
 /*
    ----------------------------------
    ---------- IGMP options ----------
    ----------------------------------
 */
+
 /*
    ----------------------------------
    ---------- DNS options -----------
    ----------------------------------
 */
+
 /**
  * LWIP_DNS==1: Turn on DNS module. UDP must be available for DNS
  * transport.
@@ -209,6 +214,7 @@
    ---------- UDP options ----------
    ---------------------------------
 */
+
 /*
    ---------------------------------
    ---------- TCP options ----------
@@ -218,7 +224,17 @@
  * TCP_WND: The size of a TCP window.  This must be at least
  * (2 * TCP_MSS) for things to work well
  */
-#define TCP_WND                         (*(volatile uint32*)0x600011F0)
+#define TCP_WND                         (12 * TCP_MSS)
+
+/**
+ * TCP_MAXRTX: Maximum number of retransmissions of data segments.
+ */
+#define TCP_MAXRTX                      12
+
+/**
+ * TCP_SYNMAXRTX: Maximum number of retransmissions of SYN segments.
+ */
+#define TCP_SYNMAXRTX                   6
 
 /**
  * TCP_QUEUE_OOSEQ==1: TCP will queue segments that arrive out of order.
@@ -235,14 +251,10 @@
 #define TCP_MSS                         1460
 
 /**
- * TCP_MAXRTX: Maximum number of retransmissions of data segments.
+ * TCP_SND_BUF: TCP sender buffer space (bytes).
+ * To achieve good performance, this should be at least 2 * TCP_MSS.
  */
-#define TCP_MAXRTX                      (*(volatile uint32*)0x600011E8)
-
-/**
- * TCP_SYNMAXRTX: Maximum number of retransmissions of SYN segments.
- */
-#define TCP_SYNMAXRTX                   (*(volatile uint32*)0x600011E4)
+#define TCP_SND_BUF                     (4 * TCP_MSS)
 
 /**
  * TCP_LISTEN_BACKLOG: Enable the backlog option for tcp listen pcb.
@@ -305,14 +317,14 @@
  * The stack size value itself is platform-dependent, but is passed to
  * sys_thread_new() when the thread is created.
  */
-#define TCPIP_THREAD_STACKSIZE          512			//not ok:384 
+#define TCPIP_THREAD_STACKSIZE          512
 
 /**
  * TCPIP_THREAD_PRIO: The priority assigned to the main tcpip thread.
  * The priority value itself is platform-dependent, but is passed to
  * sys_thread_new() when the thread is created.
  */
-#define TCPIP_THREAD_PRIO               (configMAX_PRIORITIES-5)
+#define TCPIP_THREAD_PRIO               (configMAX_PRIORITIES - 5)
 
 /**
  * TCPIP_MBOX_SIZE: The mailbox size for the tcpip thread messages

@@ -492,17 +492,15 @@ static bool isSpiffsFilenameValid(const char* name) {
     return len > 0 && len < SPIFFS_OBJ_NAME_LEN;
 }
 
-// these symbols should be defined in the linker script for each flash layout
-extern "C" uint32_t _SPIFFS_start;
-extern "C" uint32_t _SPIFFS_end;
-extern "C" uint32_t _SPIFFS_page;
-extern "C" uint32_t _SPIFFS_block;
+#if !defined(SPIFFS_START_ADDRESS) || !defined(SPIFFS_END_ADDRESS) || !defined(SPIFFS_PAGE_SIZE) || !defined(SPIFFS_PAGE_SIZE)
+#error SPIFFS Parameters are not defined!
+#endif
 
 static SPIFFSImpl s_defaultFs(
-    (uint32_t) (&_SPIFFS_start) - 0x40200000,
-    (uint32_t) (&_SPIFFS_end) - (uint32_t) (&_SPIFFS_start),
-    (uint32_t) &_SPIFFS_page,
-    (uint32_t) &_SPIFFS_block,
+    (uint32_t) (SPIFFS_START_ADDRESS),
+    (uint32_t) (SPIFFS_END_ADDRESS) - (uint32_t) (SPIFFS_START_ADDRESS),
+    (uint32_t) SPIFFS_PAGE_SIZE,
+    (uint32_t) SPIFFS_BLOCK_SIZE,
     5);
 
 FS SPIFFS = FS(FSImplPtr(&s_defaultFs));
