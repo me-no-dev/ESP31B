@@ -55,5 +55,5 @@ void pinMatrixInDetach(uint8_t signal, bool high){
 void intrMatrixAttach(uint32_t source, uint32_t inum){
   uint32 shift = (source % 6) * 5;
   if (shift >= 15) shift++;
-  SET_PERI_REG_BITS((INTR_MAP_REG_A + (source / 6) * 4), 0x1f, inum, shift);
+  SET_PERI_REG_BITS((PRO_INTR_MAP_REG_A + (source / 6) * 4), 0x1f, inum, shift);
 }

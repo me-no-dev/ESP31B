@@ -1,5 +1,5 @@
 /*
-n  v             * ESPRSSIF MIT License
+ * ESPRSSIF MIT License
  *
  * Copyright (c) 2015 <ESPRESSIF SYSTEMS (SHANGHAI) PTE LTD>
  *

@@ -28,17 +28,18 @@
 #include "eagle_soc.h"
 #include "ets_sys.h"
 #include "spi_register.h"
-#include "pro_dport_reg.h"
-
 #include "gpio/gpio_reg.h"
 #include "gpio/gpio_sd_reg.h"
 #include "gpio/gpio_sig_map.h"
 #include "gpio/io_mux_reg.h"
 #include "gpio/plus_cnt_reg.h"
 #include "uart/uart_register.h"
+#include "pro_dport_reg.h"
+#include "app_dport_reg.h"
 #include "pwm/ledc_reg.h"
 #include "rmt/rmt_reg.h"
 #include "i2s/i2s_reg.h"
+#include "rtc_cntl_reg.h"
 
 #endif
 

@@ -207,7 +207,7 @@ void dhcp_fine_tmr(void);
 #define DHCP_OPTION_END 255
 
 /**add options for support more router by liuHan**/
-#ifdef LWIP_ESP31B
+#ifdef LWIP_ESP
 #define DHCP_OPTION_DOMAIN_NAME 15
 #define DHCP_OPTION_PRD 31
 #define DHCP_OPTION_STATIC_ROUTER 33

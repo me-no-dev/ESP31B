@@ -26,7 +26,7 @@ compiler.S.flags=-c -g -x assembler-with-cpp -MMD -mlongcalls
 
 compiler.c.elf.cmd=xtensa-esp108-elf-gcc
 compiler.c.elf.flags="-L{compiler.sdk.path}/lib" -nostdlib "-T{compiler.sdk.path}/ld/{build.flash_ld}" -Wl,--no-check-sections -u call_user_start -Wl,-static
-compiler.c.elf.libs=-lc -lgcc -lhal -lm -lfreertos -llwip -lmain -lnet80211 -lphy -lpp -lrtc -lwpa -lsmartconfig -lupgrade -lcrypto -lssl -ldriver
+compiler.c.elf.libs=-lc -lgcc -lhal -lm -lfreertos -lmain -lnet80211 -lphy -lpp -lrtc -lwpa -lwpa2 -lwps -lsmartconfig -lupgrade -lcrypto -lssl -ldriver -llwip -lcjson
 
 compiler.as.cmd=xtensa-esp108-elf-as
 
@@ -42,7 +42,7 @@ compiler.python.cmd=python
 compiler.python.cmd.windows=python.exe
 
 # This can be overriden in boards.txt
-build.extra_flags=-DESP31B
+build.extra_flags=-DESP31B -DSPIFFS_START_ADDRESS={build.spiffs_start} -DSPIFFS_END_ADDRESS={build.spiffs_end} -DSPIFFS_BLOCK_SIZE={build.spiffs_blocksize} -DSPIFFS_PAGE_SIZE={build.spiffs_pagesize}
 
 # These can be overridden in platform.local.txt
 compiler.c.extra_flags=
@@ -72,10 +72,7 @@ recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.f
 recipe.objcopy.eep.pattern=
 
 ## Create hex
-#recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.hex"
-
-#recipe.objcopy.hex.pattern="{compiler.python.cmd}" "{runtime.platform.path}/tools/gen_appbin.py" -eo "{runtime.platform.path}/bootloaders/eboot/eboot.elf" -bo "{build.path}/{build.project_name}.bin" -bm {build.flash_mode} -bf {build.flash_freq} -bz {build.flash_size} -bs .text -bp 4096 -ec -eo "{build.path}/{build.project_name}.elf" -bs .irom0.text -bs .text -bs .data -bs .rodata -bc -ec
-recipe.objcopy.hex.pattern="{compiler.python.cmd}" "{runtime.platform.path}/tools/gen_appbin.py" "{build.path}/{build.project_name}.elf" "{compiler.sdk.path}/ld/{build.flash_ld}" "{build.path}" "{compiler.path}"
+recipe.objcopy.hex.pattern="{compiler.python.cmd}" "{runtime.platform.path}/tools/gen_appbin.py" "{build.path}/{build.project_name}.elf" "{compiler.sdk.path}/ld/{build.flash_ld}" "{build.path}" "{compiler.path}" "0" "0"
 
 
 ## Save hex
@@ -99,7 +96,7 @@ tools.esptool.network_cmd.windows=python.exe
 tools.esptool.upload.protocol=esp32
 tools.esptool.upload.params.verbose=
 tools.esptool.upload.params.quiet=
-tools.esptool.upload.pattern="{cmd}" "{path}" -b {upload.speed} -p "{serial.port}" write_flash -ff {build.flash_freq} -fm {build.flash_mode} -fs {build.flash_size} 0x0 "{runtime.platform.path}/tools/sdk/bin/boot.bin" 0x04000 "{build.path}/{build.project_name}.elf.0x04000.bin" 0x40000 "{build.path}/{build.project_name}.elf.0x40000.bin"
+tools.esptool.upload.pattern="{cmd}" "{path}" -b {upload.speed} -p "{serial.port}" write_flash -ff {build.flash_freq} -fm {build.flash_mode} -fs {build.flash_size} 0x0 "{runtime.platform.path}/tools/sdk/bin/boot.bin" 0x04000 {build.flash_bin} {build.blank_bin} "{runtime.platform.path}/tools/sdk/bin/blank.bin"
 tools.esptool.upload.network_pattern="{network_cmd}" "{runtime.platform.path}/tools/espota.py" -i "{serial.port}" -p "{network.port}" "--auth={network.password}" -f "{build.path}/{build.project_name}.elf.ota.bin"
 
 tools.mkspiffs.cmd=mkspiffs

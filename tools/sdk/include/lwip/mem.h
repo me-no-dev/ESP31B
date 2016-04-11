@@ -51,9 +51,11 @@ typedef size_t mem_size_t;
  * allow these defines to be overridden.
  */
 #ifndef mem_free
+//extern void vPortFree( void *pv );
 #define mem_free vPortFree
 #endif
 #ifndef mem_malloc
+//extern void *pvPortMalloc( size_t xWantedSize );
 #define mem_malloc pvPortMalloc
 #endif
 #ifndef mem_calloc

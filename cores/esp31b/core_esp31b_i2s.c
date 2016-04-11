@@ -30,7 +30,7 @@
 #define ETS_SLC_INTR_DISABLE() xt_ints_off(1 << ETS_SLC_INUM)
 #define ETS_SLC_INTR_ENABLE() xt_ints_on(1 << ETS_SLC_INUM)
 #define ETS_SLC_INTR_ATTACH(fn, arg) do { \
-  SET_PERI_REG_BITS(INTR_MAP_REG_B, PRODPORT_INTR_MAP_9, 1, PRODPORT_INTR_MAP_9_S); \
+  SET_PERI_REG_BITS(PRO_INTR_MAP_REG_B, PRODPORT_INTR_MAP_9, 1, PRODPORT_INTR_MAP_9_S); \
   intrMatrixAttach(ETS_SLC_SOURCE, ETS_SLC_INUM); \
   xt_set_interrupt_handler(ETS_SLC_INUM, fn, arg); \
 } while(0)

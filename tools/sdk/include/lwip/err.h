@@ -59,7 +59,7 @@ typedef s8_t err_t;
 #define ERR_WOULDBLOCK -7    /* Operation would block.   */
 #define ERR_USE        -8    /* Address in use.          */
 
-#ifdef LWIP_ESP31B
+#ifdef LWIP_ESP
 #define ERR_ALREADY    -9	 /* Already connected.       */
 #define ERR_ISCONN     -10   /* Conn already established.*/
 

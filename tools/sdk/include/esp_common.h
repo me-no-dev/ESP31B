@@ -87,6 +87,7 @@
 #include "esp_sta.h"
 #include "esp_system.h"
 #include "esp_timer.h"
+#include "esp_ssc.h"
 
 #include "esp32/esp32.h"
 
