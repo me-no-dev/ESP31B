@@ -32,6 +32,9 @@
 #ifndef __LWIPOPTS_H__
 #define __LWIPOPTS_H__
 
+#define PBUF_RSV_FOR_WLAN
+#define EBUF_LWIP
+
 #define LWIP_ESP
 /*
    -----------------------------------------------

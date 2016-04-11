@@ -24,7 +24,7 @@
 
 #include "esp_common.h"
 #include "freertos/portmacro.h"
-#include "gpio.h"
+#include "esp32/gpio.h"
 
 /*
  * set gpio input to a signal

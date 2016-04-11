@@ -4,12 +4,12 @@ menu.FlashMap=Flash Map
 menu.FlashSize=Flash Size
 menu.FlashMode=Flash Mode
 menu.FlashFreq=Flash Frequency
+menu.LwIPVariant=lwIP Variant
 
 ##############################################################
 esp31b.name=Beta ESP31B Module
 
 esp31b.upload.tool=esptool
-esp31b.upload.speed=115200
 esp31b.upload.maximum_size=1044464
 esp31b.upload.maximum_data_size=81920
 esp31b.upload.wait_for_upload_port=true
@@ -17,10 +17,7 @@ esp31b.serial.disableDTR=true
 esp31b.serial.disableRTS=true
 
 esp31b.build.mcu=esp31b
-esp31b.build.f_cpu=80000000L
 esp31b.build.board=ESP31B_DEV
-esp31b.build.core=esp31b
-esp31b.build.variant=esp31b
 esp31b.build.spiffs_pagesize=256
 esp31b.build.spiffs_blocksize=8192
 
@@ -73,8 +70,8 @@ esp31b.menu.UploadSpeed.115200=115200
 esp31b.menu.UploadSpeed.115200.upload.speed=115200
 esp31b.menu.UploadSpeed.256000.windows=256000
 esp31b.menu.UploadSpeed.256000.upload.speed=256000
-esp31b.menu.UploadSpeed.230400.linux=230400
-esp31b.menu.UploadSpeed.230400.macosx=230400
+esp31b.menu.UploadSpeed.230400.windows.upload.speed=256000
+esp31b.menu.UploadSpeed.230400=230400
 esp31b.menu.UploadSpeed.230400.upload.speed=230400
 esp31b.menu.UploadSpeed.460800.linux=460800
 esp31b.menu.UploadSpeed.460800.macosx=460800
@@ -87,23 +84,27 @@ esp31b.menu.UploadSpeed.921600.upload.speed=921600
 esp31b.menu.FlashMap.11=Map 1.1
 esp31b.menu.FlashMap.11.build.flash_ld=pro.map1.1.ld
 esp31b.menu.FlashMap.11.build.flash_bin="{build.path}/{build.project_name}.elf.drom.bin" 0x40000 "{build.path}/{build.project_name}.elf.irom.bin"
-
 esp31b.menu.FlashMap.12=Map 1.2
 esp31b.menu.FlashMap.12.build.flash_ld=pro.map1.2.ld
 esp31b.menu.FlashMap.12.build.flash_bin="{build.path}/{build.project_name}.elf.irom.bin"
-
 esp31b.menu.FlashMap.21=Map 2.1
 esp31b.menu.FlashMap.21.build.flash_ld=pro.map2.1.ld
 esp31b.menu.FlashMap.21.build.flash_bin="{build.path}/{build.project_name}.elf.drom.bin" 0x40000 "{build.path}/{build.project_name}.elf.irom.bin"
-
 esp31b.menu.FlashMap.22=Map 2.2
 esp31b.menu.FlashMap.22.build.flash_ld=pro.map2.2.ld
 esp31b.menu.FlashMap.22.build.flash_bin="{build.path}/{build.project_name}.elf.irom.bin"
-
 esp31b.menu.FlashMap.31=Map 3.1
 esp31b.menu.FlashMap.31.build.flash_ld=pro.map3.1.ld
 esp31b.menu.FlashMap.31.build.flash_bin="{build.path}/{build.project_name}.elf.drom.bin" 0x40000 "{build.path}/{build.project_name}.elf.irom.bin"
-
 esp31b.menu.FlashMap.32=Map 3.2
 esp31b.menu.FlashMap.32.build.flash_ld=pro.map3.2.ld
 esp31b.menu.FlashMap.32.build.flash_bin="{build.path}/{build.project_name}.elf.irom.bin"
+
+esp31b.menu.LwIPVariant.Espressif=Espressif (xcc)
+esp31b.menu.LwIPVariant.Espressif.build.src_libs=-llwip -lssl -ldriver -lcjson
+esp31b.menu.LwIPVariant.Espressif.build.src_flags=
+esp31b.menu.LwIPVariant.Espressif.build.variant=esp31b
+esp31b.menu.LwIPVariant.OpenSource=Open Source (gcc)
+esp31b.menu.LwIPVariant.OpenSource.build.src_libs=
+esp31b.menu.LwIPVariant.OpenSource.build.src_flags=-DLWIP_OPEN_SRC -DSOFTWARE_CRYPTO -D_POSIX_SOURCE 
+esp31b.menu.LwIPVariant.OpenSource.build.variant=esp31bsrc

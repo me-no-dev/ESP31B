@@ -28,8 +28,8 @@
 #include "freertos/queue.h"
 #include "freertos/xtensa_api.h"
 #include "esp_common.h"
-#include "i2s.h"
-#include "gpio.h"
+#include "esp32/i2s.h"
+#include "esp32/gpio.h"
 #include <stdio.h>
 
 #define IIS_RX_BUF_LEN  512  //unit Byte

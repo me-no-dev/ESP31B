@@ -28,8 +28,8 @@
 #include "freertos/xtensa_api.h"
 
 #include "esp_common.h"
-#include "uart.h"
-#include "gpio.h"
+#include "esp32/uart.h"
+#include "esp32/gpio.h"
 #include <stdio.h>
 
 enum {
