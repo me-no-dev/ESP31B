@@ -13,7 +13,7 @@ compiler.warning_flags.all=-Wall -Wextra
 
 compiler.path={runtime.tools.xtensa-esp108-elf-gcc.path}/bin/
 compiler.sdk.path={runtime.platform.path}/tools/sdk
-compiler.cpreprocessor.flags=-D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ "-I{compiler.sdk.path}/include" "-I{compiler.sdk.path}/include/ipv4" "-I{compiler.sdk.path}/include/ipv6"
+compiler.cpreprocessor.flags=-D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ "-I{compiler.sdk.path}/include"
 
 compiler.c.cmd=xtensa-esp108-elf-gcc
 compiler.c.flags=-c {compiler.warning_flags} -Os -g -Wpointer-arith -Wno-implicit-function-declaration -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -falign-functions=4 -MMD -std=gnu99 -ffunction-sections -fdata-sections
@@ -26,7 +26,7 @@ compiler.S.flags=-c -g -x assembler-with-cpp -MMD -mlongcalls
 
 compiler.c.elf.cmd=xtensa-esp108-elf-gcc
 compiler.c.elf.flags="-L{compiler.sdk.path}/lib" -nostdlib "-T{compiler.sdk.path}/ld/{build.flash_ld}" -Wl,--no-check-sections -u call_user_start -Wl,-static
-compiler.c.elf.libs=-lc -lgcc -lhal -lm -lfreertos -lmain -lnet80211 -lphy -lpp -lrtc -lwpa -lwpa2 -lwps -lsmartconfig -lupgrade -lcrypto -lssl -ldriver -llwip -lcjson
+compiler.c.elf.libs=-lc -lgcc -lhal -lm -lfreertos -lmain -lnet80211 -lphy -lpp -lrtc -lwpa -lwpa2 -lwps -lsmartconfig -lupgrade -lcrypto {build.src_libs}
 
 compiler.as.cmd=xtensa-esp108-elf-as
 
@@ -54,13 +54,13 @@ compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 
 ## Compile c files
-recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.cpreprocessor.flags} {compiler.c.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.cpreprocessor.flags} {compiler.c.flags} {build.src_flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
 
 ## Compile c++ files
-recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpreprocessor.flags} {compiler.cpp.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpreprocessor.flags} {compiler.cpp.flags} {build.src_flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
 
 ## Compile S files
-recipe.S.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.cpreprocessor.flags} {compiler.S.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+recipe.S.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.cpreprocessor.flags} {compiler.S.flags} {build.src_flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
 
 ## Create archives
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{build.path}/arduino.ar" "{object_file}"
@@ -73,7 +73,6 @@ recipe.objcopy.eep.pattern=
 
 ## Create hex
 recipe.objcopy.hex.pattern="{compiler.python.cmd}" "{runtime.platform.path}/tools/gen_appbin.py" "{build.path}/{build.project_name}.elf" "{compiler.sdk.path}/ld/{build.flash_ld}" "{build.path}" "{compiler.path}" "0" "0"
-
 
 ## Save hex
 recipe.output.tmp_file={build.project_name}.bin

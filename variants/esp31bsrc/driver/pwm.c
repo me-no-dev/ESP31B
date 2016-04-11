@@ -23,7 +23,7 @@
  */
 
 #include "esp_common.h"
-#include "pwm.h"
+#include "esp32/pwm.h"
 
 /******************************************************************************
  * FunctionName : ledc_set_base_hclk

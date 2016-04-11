@@ -25,7 +25,7 @@
 #include "esp_common.h"
 #include "freertos/portmacro.h"
 #include "freertos/xtensa_api.h"
-#include "gpio.h"
+#include "esp32/gpio.h"
 #include <stdio.h>
 
 const uint32 GPIO_PIN_REG[40] = {
