@@ -17,6 +17,7 @@ esp31b.serial.disableDTR=true
 esp31b.serial.disableRTS=true
 
 esp31b.build.mcu=esp31b
+esp31b.build.core=esp31b
 esp31b.build.board=ESP31B_DEV
 esp31b.build.spiffs_pagesize=256
 esp31b.build.spiffs_blocksize=8192
