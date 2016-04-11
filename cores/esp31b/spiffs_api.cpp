@@ -501,6 +501,6 @@ static SPIFFSImpl s_defaultFs(
     (uint32_t) (SPIFFS_END_ADDRESS) - (uint32_t) (SPIFFS_START_ADDRESS),
     (uint32_t) SPIFFS_PAGE_SIZE,
     (uint32_t) SPIFFS_BLOCK_SIZE,
-    5);
+    6);
 
 FS SPIFFS = FS(FSImplPtr(&s_defaultFs));
