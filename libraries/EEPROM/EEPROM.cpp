@@ -114,4 +114,4 @@ uint8_t * EEPROMClass::getDataPtr() {
 }
 
 extern "C" uint32_t _SPIFFS_end;
-EEPROMClass EEPROM((((uint32_t)&_SPIFFS_end - 0x40200000) / SPI_FLASH_SEC_SIZE));
+EEPROMClass EEPROM(SPIFFS_END_ADDRESS / SPI_FLASH_SEC_SIZE);
