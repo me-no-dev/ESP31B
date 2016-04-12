@@ -82,7 +82,6 @@ recipe.output.save_file={build.project_name}.{build.variant}.bin
 recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
 recipe.size.regex=^(?:\.irom0\.text|\.text|\.data|\.rodata|)\s+([0-9]+).*
 recipe.size.regex.data=^(?:\.data|\.rodata|\.bss)\s+([0-9]+).*
-#recipe.size.regex.eeprom=^(?:\.eeprom)\s+([0-9]+).*
 
 # ------------------------------
 

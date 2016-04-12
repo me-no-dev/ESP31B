@@ -18,6 +18,7 @@ esp31b.serial.disableRTS=true
 
 esp31b.build.mcu=esp31b
 esp31b.build.core=esp31b
+esp31b.build.variant=esp31bsrc
 esp31b.build.board=ESP31B_DEV
 esp31b.build.spiffs_pagesize=256
 esp31b.build.spiffs_blocksize=8192
@@ -82,22 +83,22 @@ esp31b.menu.UploadSpeed.512000.upload.speed=512000
 esp31b.menu.UploadSpeed.921600=921600
 esp31b.menu.UploadSpeed.921600.upload.speed=921600
 
-esp31b.menu.FlashMap.11=Map 1.1
+esp31b.menu.FlashMap.11=Map 1.1 (MinMem+drom)
 esp31b.menu.FlashMap.11.build.flash_ld=pro.map1.1.ld
 esp31b.menu.FlashMap.11.build.flash_bin="{build.path}/{build.project_name}.elf.drom.bin" 0x40000 "{build.path}/{build.project_name}.elf.irom.bin"
-esp31b.menu.FlashMap.12=Map 1.2
+esp31b.menu.FlashMap.12=Map 1.2 (MinMem)
 esp31b.menu.FlashMap.12.build.flash_ld=pro.map1.2.ld
 esp31b.menu.FlashMap.12.build.flash_bin="{build.path}/{build.project_name}.elf.irom.bin"
-esp31b.menu.FlashMap.21=Map 2.1
+esp31b.menu.FlashMap.21=Map 2.1 (MaxMem+drom)
 esp31b.menu.FlashMap.21.build.flash_ld=pro.map2.1.ld
 esp31b.menu.FlashMap.21.build.flash_bin="{build.path}/{build.project_name}.elf.drom.bin" 0x40000 "{build.path}/{build.project_name}.elf.irom.bin"
-esp31b.menu.FlashMap.22=Map 2.2
+esp31b.menu.FlashMap.22=Map 2.2 (MaxMem)
 esp31b.menu.FlashMap.22.build.flash_ld=pro.map2.2.ld
 esp31b.menu.FlashMap.22.build.flash_bin="{build.path}/{build.project_name}.elf.irom.bin"
-esp31b.menu.FlashMap.31=Map 3.1
+esp31b.menu.FlashMap.31=Map 3.1 (DualCpu+drom)
 esp31b.menu.FlashMap.31.build.flash_ld=pro.map3.1.ld
 esp31b.menu.FlashMap.31.build.flash_bin="{build.path}/{build.project_name}.elf.drom.bin" 0x40000 "{build.path}/{build.project_name}.elf.irom.bin"
-esp31b.menu.FlashMap.32=Map 3.2
+esp31b.menu.FlashMap.32=Map 3.2 (DualCpu)
 esp31b.menu.FlashMap.32.build.flash_ld=pro.map3.2.ld
 esp31b.menu.FlashMap.32.build.flash_bin="{build.path}/{build.project_name}.elf.irom.bin"
 

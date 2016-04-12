@@ -65,11 +65,6 @@ PHDRS
   drom0_0_phdr PT_LOAD;
 }
 
-/*PROVIDE ( _SPIFFS_start = 0x40300000 );*/
-/*PROVIDE ( _SPIFFS_end = 0x403FB000 );*/
-/*PROVIDE ( _SPIFFS_page = 0x100 );*/
-/*PROVIDE ( _SPIFFS_block = 0x2000 );*/
-
 /*  Default entry point:  */
 ENTRY(call_user_start)
 EXTERN(_Level2Vector)
@@ -260,7 +255,6 @@ SECTIONS
     *(.init)
 
     *(.iram1.*)
-
     *libmain.a:(.literal .text .literal.* .text.*)
     *libfreertos.a:(.literal .text .literal.* .text.*)
     *libpp.a:(.literal .text .literal.* .text.*)

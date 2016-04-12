@@ -89,14 +89,17 @@ typedef enum {
 #define __packed            __attribute__((packed))
 #define STORE_ATTR          __attribute__((aligned(4)))
 
-#define ICACHE_FLASH_ATTR
-#define ICACHE_RODATA_ATTR  __attribute__((section(".irom.text")))
-
-#define IRAM_ATTR           __attribute__((section(".iram1.text")))
+#define DROM_ATTR           __attribute__((section(".rodata")))
 #define DRAM_ATTR           __attribute__((section(".data")))
-
+#define IRAM_ATTR           __attribute__((section(".iram1.text")))
+#define IROM_ATTR           __attribute__((section(".irom.text")))
 /* only uninitialized data can be put in .share.mem section */
 #define SHMEM_ATTR          __attribute__((section(".share.mem")))
+
+
+#define ICACHE_FLASH_ATTR   IROM_ATTR
+#define ICACHE_RODATA_ATTR  IROM_ATTR
+#define ICACHE_RAM_ATTR     IRAM_ATTR
 
 #ifndef __cplusplus
 #define BOOL            bool

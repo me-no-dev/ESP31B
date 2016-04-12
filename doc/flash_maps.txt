@@ -1,0 +1,47 @@
+/* Max Values */
+240KB (0x3BFF0)  drom0: 0x3FE04010 [rodata]                         // DROM_ATTR
+96KB  (0x18000)  dram1: 0x3FFA8000 [data+rodata+bss]                // App CPU iRAM / DRAM_ATTR
+144KB (0x24000)  dram0: 0x3FFD8000 [data+rodata+bss+share.mem+heap] // Share Memory / SHMEM_ATTR
+128KB (0x20000)  iram1: 0x40040000 [text]                           // Pro CPU iRAM / ICACHE_RAM_ATTR / IRAM_ATTR
+3.5MB (0x37FFF0) irom0: 0x40080010 [irom.text]                      // ICACHE_FLASH_ATTR / ICACHE_RODATA_ATTR / IROM_ATTR
+
+Map 1.1 - Minimal Configuration
+240KB drom0 [rodata]
+144KB dram0 [data+bss+share.mem+heap]
+128KB iram1 [text]
+3.5MB irom0 [irom.text]
+
+Map 1.2 - Minimal Configuration
+144KB dram0 [data+rodata+bss+share.mem+heap]
+128KB iram1 [text]
+3.5MB irom0 [irom.text]
+
+Map 2.1 - Max available memory
+240KB drom0 [rodata]
+96KB  dram1 [data+bss] 
+144KB dram0 [share.mem+heap]
+128KB iram1 [text]
+3.5MB irom0 [irom.text]
+
+Map 2.2 - Max available memory
+96KB  dram1 [data+rodata+bss] 
+144KB dram0 [share.mem+heap]
+128KB iram1 [text]
+3.5MB irom0 [irom.text]
+
+Map 3.1 - For dual cpu apps
+240KB drom0 [rodata]
+64KB  dram1 [data+bss] 
+128KB dram0 [share.mem+heap]
+128KB iram1 [text]
+3.5MB irom0 [irom.text]
+
+Map 3.2 - For dual cpu apps
+64KB  dram1 [data+rodata+bss] 
+128KB dram0 [share.mem+heap]
+128KB iram1 [text]
+3.5MB irom0 [irom.text]
+
+//Note: Eclipse adds the following flags to gcc and g++, resulting in smaller memory usage
+//-MMD -MP -MF"c_file.c.d" -MT"c_file.c.o"
+//-MMD -MP -MF"cpp_file.cpp.d" -MT"cpp_file.cpp.o" -x c++ 
