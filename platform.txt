@@ -25,7 +25,7 @@ compiler.S.cmd=xtensa-esp108-elf-gcc
 compiler.S.flags=-c -g -x assembler-with-cpp -MMD -mlongcalls
 
 compiler.c.elf.cmd=xtensa-esp108-elf-gcc
-compiler.c.elf.flags="-L{compiler.sdk.path}/lib" -nostdlib "-T{compiler.sdk.path}/ld/{build.flash_ld}" -Wl,--no-check-sections -u call_user_start -Wl,-static
+compiler.c.elf.flags="-L{compiler.sdk.path}/lib" -nostdlib "-T{compiler.sdk.path}/ld/{build.flash_ld}" -Wl,--no-check-sections -u call_user_start -Wl,-static -Wl,-wrap,system_fatal_exception_handler
 compiler.c.elf.libs=-lc -lgcc -lhal -lm -lfreertos -lmain -lnet80211 -lphy -lpp -lrtc -lwpa -lwpa2 -lwps -lsmartconfig -lupgrade -lcrypto {build.src_libs}
 
 compiler.as.cmd=xtensa-esp108-elf-as

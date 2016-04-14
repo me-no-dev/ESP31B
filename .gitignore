@@ -1,4 +1,4 @@
-
 tools/xtensa-esp108-elf
-
 variants/esp31bsrc/lwip/build
+libraries/ESP31BmDNS
+tools/sdk/lib/*.o

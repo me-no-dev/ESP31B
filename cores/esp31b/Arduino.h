@@ -42,6 +42,7 @@ extern "C" {
   #define DEBUGV(...)
   #endif
 
+#include "debug.h"
 #include "stdlib_noniso.h"
 #include "binary.h"
 #include "esp31b_peri.h"

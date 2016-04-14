@@ -27,6 +27,7 @@ extern "C" {
 #include "c_types.h"
 #include "spi_flash.h"
 }
+#include "debug.h"
 /*
  spi_flash_read function requires flash address to be aligned on word boundary.
  We take care of this by reading first and last words separately and memcpy

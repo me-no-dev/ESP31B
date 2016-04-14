@@ -199,6 +199,7 @@ extern unsigned long os_random(void);
    ---------- IGMP options ----------
    ----------------------------------
 */
+#define LWIP_IGMP 0
 
 /*
    ----------------------------------

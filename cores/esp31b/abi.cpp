@@ -18,23 +18,7 @@
 
 #include <stdlib.h>
 #include <assert.h>
-extern "C" {
-#include "esp_common.h"
-
-void __panic_func(const char* file, int line, const char* func) __attribute__((noreturn));
-#define panic() __panic_func(__FILE__, __LINE__, __func__)
-}
-
-void abort() __attribute__((noreturn));
-
-void abort(){
-    do { *((int*)0) = 0; } while(true);
-}
-
-void __panic_func(const char* file, int line, const char* func) {
-  os_printf("PANIC: file: %s, line: %d, func: %s\n");
-  abort();
-}
+#include <debug.h>
 
 void *operator new(size_t size) {
     size = ((size + 3) & ~((size_t)0x3));
@@ -66,21 +50,21 @@ void __cxa_deleted_virtual(void) {
 }
 
 namespace std {
-void __throw_bad_function_call() {
-  panic();
-}
+  void __throw_bad_function_call() {
+    panic();
+  }
 
-void __throw_length_error(char const*) {
-  panic();
-}
+  void __throw_length_error(char const*) {
+    panic();
+  }
 
-void __throw_bad_alloc() {
-  panic();
-}
+  void __throw_bad_alloc() {
+    panic();
+  }
 
-void __throw_logic_error(const char* str) {
-  panic();
-}
+  void __throw_logic_error(const char* str) {
+    panic();
+  }
 }
 
 // TODO: rebuild windows toolchain to make this unnecessary:
