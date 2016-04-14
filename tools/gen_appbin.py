@@ -166,7 +166,7 @@ def gen_appbin():
     data_bin_name = build_path + '/eagle.app.v7.data.bin'
     rodata_bin_name = build_path + '/eagle.app.v7.rodata.bin'
     irom0text_bin_name = build_path + '/eagle.app.v7.irom0text.bin'
-    irom1text_bin_name = build_path + '/eagle.app.v7.irom1text.bin'
+    irom1text_bin_name = build_path + '/eagle.app.v7.drom0text.bin'
     
     os.system('rm -rf "' + flash_bin_name + '"')
     os.system('rm -rf "' + Dcache_bin_name + '"')
