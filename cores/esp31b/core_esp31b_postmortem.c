@@ -70,9 +70,9 @@ void __panic_func(const char* file, int line, const char* func) {
     abort();
 }
 
-#define exccause_read() ((__extension__({uint32_t r;__asm__ __volatile__("esync; rsr %0,exccause":"=a" (r));r;})))
-#define excvaddr_read() ((__extension__({uint32_t r;__asm__ __volatile__("esync; rsr %0,excvaddr":"=a" (r));r;})))
-#define epc_read() ((__extension__({uint32_t r;__asm__ __volatile__("esync; rsr %0,epc1":"=a" (r));r;})))
+#define exccause_read() ((__extension__({uint32_t r;__asm__ __volatile__("rsr %0,exccause":"=a" (r));r;})))
+#define excvaddr_read() ((__extension__({uint32_t r;__asm__ __volatile__("rsr %0,excvaddr":"=a" (r));r;})))
+#define epc_read() ((__extension__({uint32_t r;__asm__ __volatile__("rsr %0,epc1":"=a" (r));r;})))
 
 static const char* exc2str(uint32_t exc){
   switch(exc){

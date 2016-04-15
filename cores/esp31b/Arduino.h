@@ -26,6 +26,7 @@ extern "C" {
 
 #include "esp_common.h"
 #include "freertos/xtensa_api.h"
+#include "freertos/task.h"
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -132,7 +133,8 @@ extern "C" {
 #define interrupts() xt_rsil(0)
 #define noInterrupts() xt_rsil(15)
 
-#define yield() do {} while(0)
+void vPortYield(void);
+#define yield() vPortYield()
 #define optimistic_yield(a) yield()
 
 #define clockCyclesPerMicrosecond() ( F_CPU / 1000000L )
@@ -149,7 +151,7 @@ extern "C" {
 
 // avr-libc defines _NOP() since 1.6.2
 #ifndef _NOP
-#define _NOP() do { __asm__ volatile ("nop"); } while (0)
+#define _NOP() __asm__ volatile ("nop")
 #endif
 
 typedef unsigned int word;
@@ -189,10 +191,10 @@ void setup(void);
 void loop(void);
 
 // I2S
-void ICACHE_FLASH_ATTR i2sInit();
-void i2sSetRate(int rate, int enaWordlenFuzzing);
-void i2sPushSample(unsigned int sample);
-long ICACHE_FLASH_ATTR i2sGetUnderrunCnt();
+//void i2sInit();
+//void i2sSetRate(int rate, int enaWordlenFuzzing);
+//void i2sPushSample(unsigned int sample);
+//long i2sGetUnderrunCnt();
 
 #ifdef __cplusplus
 } // extern "C"

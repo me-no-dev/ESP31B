@@ -48,10 +48,6 @@ static void do_global_ctors(void) {
 extern "C" void __loop_task(void *pvParameters){
   bool setup_done = false;
   for(;;){
-#if defined(F_CPU) && (F_CPU == 160000000L)
-    //REG_SET_BIT(0x3ff00014, BIT(0));
-    ets_update_cpu_frequency(160);
-#endif
     if(!setup_done) {
         setup();
         setup_done = true;
@@ -62,6 +58,9 @@ extern "C" void __loop_task(void *pvParameters){
 
 extern "C" void user_init(void) {
   do_global_ctors();
+#if defined(F_CPU) && (F_CPU == 160000000L)
+  ets_update_cpu_frequency(160);
+#endif
   init();
   initVariant();
   xTaskCreate(__loop_task, "loop_task", 4096, NULL, tskIDLE_PRIORITY, NULL);
