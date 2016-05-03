@@ -695,14 +695,16 @@ igmp_timeout(struct igmp_group *group)
 static void
 igmp_start_timer(struct igmp_group *group, u8_t max_time)
 {
-  /* ensure the input value is > 0 */
-  if (max_time == 0) {
-    max_time = 1;
-  }
 #ifdef LWIP_RAND
   /* ensure the random value is > 0 */
-  group->timer = (LWIP_RAND() % max_time);
+  group->timer = max_time > 2 ? (LWIP_RAND() % max_time) : 1;
+#else
+  /* ATTENTION: use this only if absolutely necessary! */
+  group->timer = max_time / 2;
 #endif /* LWIP_RAND */
+  if (group->timer == 0) {
+    group->timer = 1;
+  }
 }
 
 /**
