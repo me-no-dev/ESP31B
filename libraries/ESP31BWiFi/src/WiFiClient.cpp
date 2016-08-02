@@ -97,6 +97,7 @@ int WiFiClient::connect(const char* host, uint16_t port)
 int WiFiClient::connect(IPAddress ip, uint16_t port)
 {
     ip_addr_t addr;
+    addr.type = IPADDR_TYPE_V4;
     addr.u_addr.ip4.addr = ip;
 
     if (_client)
@@ -108,6 +109,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
     // http://lists.gnu.org/archive/html/lwip-devel/2010-05/msg00001.html
 
     ip_addr_t saddr;
+    saddr.type = IPADDR_TYPE_V4;
     saddr.u_addr.ip4.addr = 0;
     netif* interface = ip_route(&saddr, &addr);
     if (!interface) {

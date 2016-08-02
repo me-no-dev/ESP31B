@@ -82,6 +82,7 @@ uint8_t WiFiUDP::begin(uint16_t port)
     _ctx = new UdpContext;
     _ctx->ref();
     ip_addr_t addr;
+    addr.type = IPADDR_TYPE_V4;
     addr.u_addr.ip4.addr = INADDR_ANY;
     return (_ctx->listen(addr, port)) ? 1 : 0;
 }
@@ -142,6 +143,7 @@ int WiFiUDP::beginPacket(const char *host, uint16_t port)
 int WiFiUDP::beginPacket(IPAddress ip, uint16_t port)
 {
     ip_addr_t addr;
+    addr.type = IPADDR_TYPE_V4;
     addr.u_addr.ip4.addr = ip;
 
     if (!_ctx) {
@@ -155,8 +157,10 @@ int WiFiUDP::beginPacketMulticast(IPAddress multicastAddress, uint16_t port,
     IPAddress interfaceAddress, int ttl)
 {
     ip_addr_t mcastAddr;
+    mcastAddr.type = IPADDR_TYPE_V4;
     mcastAddr.u_addr.ip4.addr = multicastAddress;
     ip_addr_t ifaceAddr;
+    ifaceAddr.type = IPADDR_TYPE_V4;
     ifaceAddr.u_addr.ip4.addr = interfaceAddress;
 
     if (!_ctx) {

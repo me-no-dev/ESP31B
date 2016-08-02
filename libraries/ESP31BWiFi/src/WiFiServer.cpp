@@ -61,6 +61,7 @@ void WiFiServer::begin() {
         return;
 
     ip_addr_t local_addr;
+    local_addr.type = IPADDR_TYPE_V4;
     local_addr.u_addr.ip4.addr = (uint32_t) _addr;
     err = tcp_bind(pcb, &local_addr, _port);
 
