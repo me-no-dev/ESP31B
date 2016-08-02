@@ -116,5 +116,5 @@ esp31b.menu.LwIPVariant.Espressif.build.src_flags=
 esp31b.menu.LwIPVariant.Espressif.build.variant=esp31b
 esp31b.menu.LwIPVariant.OpenSource=Open Source (gcc)
 esp31b.menu.LwIPVariant.OpenSource.build.src_libs=
-esp31b.menu.LwIPVariant.OpenSource.build.src_flags=-DLWIP_OPEN_SRC -DSOFTWARE_CRYPTO -D_POSIX_SOURCE 
+esp31b.menu.LwIPVariant.OpenSource.build.src_flags=-DLWIP_OPEN_SRC -DSOFTWARE_CRYPTO -D_POSIX_SOURCE
 esp31b.menu.LwIPVariant.OpenSource.build.variant=esp31bsrc

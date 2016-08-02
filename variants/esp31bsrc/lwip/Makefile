@@ -1,33 +1,57 @@
-TOOLS_PATH ?= ../../../sdk/xtensa-esp108-elf/bin/xtensa-esp108-elf-
-LWIP_LIB ?= liblwip_gcc.a
-SDK_PATH ?= $(abspath ../../../sdk/)
 
-BUILD_PATH = build
-LWIP_SRCS = $(patsubst %.c,$(BUILD_PATH)/%.o,$(wildcard */*.c)) $(patsubst %.c,$(BUILD_PATH)/%.o,$(wildcard */*/*.c))
+#############################################################
+# Required variables for each makefile
+# Discard this section from all parent makefiles
+# Expected variables (with automatic defaults):
+#   CSRCS (all "C" files in the dir)
+#   SUBDIRS (all subdirs with a Makefile)
+#   GEN_LIBS - list of libs to be generated ()
+#   GEN_IMAGES - list of images to be generated ()
+#   COMPONENTS_xxx - a list of libs/objs in the form
+#     subdir/lib to be extracted and rolled up into
+#     a generated lib/image xxx.a ()
+#
+ifndef PDIR
+UP_EXTRACT_DIR = ..
+GEN_LIBS = liblwip.a
+COMPONENTS_liblwip = api/liblwipapi.a	\
+						apps/liblwipapps.a	\
+						core/liblwipcore.a	\
+						core/ipv4/liblwipipv4.a	\
+						core/ipv6/liblwipipv6.a	\
+						netif/liblwipnetif.a	\
+						port/liblwipport.a	\
+						port/freertos/liblwipportfreertos.a	\
+						port/netif/liblwipportnetif.a
+endif
 
-LWIP_INCLUDE = -Ibuild -I$(SDK_PATH)/include
-BUILD_FLAGS = -c -Os -g -Wpointer-arith -Wno-implicit-function-declaration -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -falign-functions=4 -MMD -std=gnu99 -ffunction-sections -fdata-sections
-BUILD_DEFINES = -D__ets__ -DICACHE_FLASH -U__STRICT_ANSI__ -DLWIP_OPEN_SRC
+CCFLAGS += -fno-aggressive-loop-optimizations
 
-CC=$(TOOLS_PATH)gcc
-AR=$(TOOLS_PATH)ar
+#############################################################
+# Configuration i.e. compile options etc.
+# Target specific stuff (defines etc.) goes in here!
+# Generally values applying to a tree are captured in the
+#   makefile at its root level - these are then overridden
+#   for a subtree within the makefile rooted therein
+#
+DEFINES += -D_POSIX_SOURCE \
+	   -DLWIP_ESP8266 \
 
-$(BUILD_PATH)/%.h:
-	@mkdir -p $(dir $@)
-	@touch $@
 
-$(BUILD_PATH)/%.o: %.c
-	@mkdir -p $(dir $@)
-	$(CC) $(BUILD_FLAGS) $(BUILD_DEFINES) $(LWIP_INCLUDE) $< -o $@
+#############################################################
+# Recursion Magic - Don't touch this!!
+#
+# Each subtree potentially has an include directory
+#   corresponding to the common APIs applicable to modules
+#   rooted at that subtree. Accordingly, the INCLUDE PATH
+#   of a module can only contain the include directories up
+#   its parent path, and not its siblings
+#
+# Required for each makefile to inherit from the parent
+#
 
-$(BUILD_PATH)/$(LWIP_LIB): $(BUILD_PATH)/user_config.h $(LWIP_SRCS)
-	$(AR) cru $(BUILD_PATH)/$(LWIP_LIB) $(LWIP_SRCS)
+INCLUDES := $(INCLUDES) -I $(PDIR)include
+INCLUDES += -I ./
+PDIR := ../$(PDIR)
+sinclude $(PDIR)Makefile
 
-all: $(BUILD_PATH)/$(LWIP_LIB)
-
-install: all
-	cp -f $(BUILD_PATH)/$(LWIP_LIB) $(SDK_PATH)/lib/$(LWIP_LIB)
-
-clean:
-	@rm -rf $(BUILD_PATH)
-	

@@ -40,8 +40,8 @@
  * <delamer@inicotech.com>
  */
 
-#ifndef __LWIP_MLD6_H__
-#define __LWIP_MLD6_H__
+#ifndef LWIP_HDR_MLD6_H
+#define LWIP_HDR_MLD6_H
 
 #include "lwip/opt.h"
 
@@ -78,12 +78,12 @@ struct mld_group {
 #endif
 PACK_STRUCT_BEGIN
 struct mld_header {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u16_t max_resp_delay);
   PACK_STRUCT_FIELD(u16_t reserved);
-  PACK_STRUCT_FIELD(ip6_addr_p_t multicast_address);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t multicast_address);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -99,14 +99,15 @@ PACK_STRUCT_END
 #define MLD6_ADD_MAC_FILTER            1
 
 
-#define mld6_init() /* TODO should we init tables? */
 err_t  mld6_stop(struct netif *netif);
 void   mld6_report_groups(struct netif *netif);
 void   mld6_tmr(void);
-struct mld_group *mld6_lookfor_group(struct netif *ifp, ip6_addr_t *addr);
+struct mld_group *mld6_lookfor_group(struct netif *ifp, const ip6_addr_t *addr);
 void   mld6_input(struct pbuf *p, struct netif *inp);
-err_t  mld6_joingroup(ip6_addr_t *srcaddr, ip6_addr_t *groupaddr);
-err_t  mld6_leavegroup(ip6_addr_t *srcaddr, ip6_addr_t *groupaddr);
+err_t  mld6_joingroup(const ip6_addr_t *srcaddr, const ip6_addr_t *groupaddr);
+err_t  mld6_joingroup_netif(struct netif *netif, const ip6_addr_t *groupaddr);
+err_t  mld6_leavegroup(const ip6_addr_t *srcaddr, const ip6_addr_t *groupaddr);
+err_t  mld6_leavegroup_netif(struct netif *netif, const ip6_addr_t *groupaddr);
 
 
 #ifdef __cplusplus
@@ -115,4 +116,4 @@ err_t  mld6_leavegroup(ip6_addr_t *srcaddr, ip6_addr_t *groupaddr);
 
 #endif /* LWIP_IPV6_MLD && LWIP_IPV6 */
 
-#endif /* __LWIP_MLD6_H__ */
+#endif /* LWIP_HDR_MLD6_H */

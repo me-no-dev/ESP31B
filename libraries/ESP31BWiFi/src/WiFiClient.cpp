@@ -97,7 +97,7 @@ int WiFiClient::connect(const char* host, uint16_t port)
 int WiFiClient::connect(IPAddress ip, uint16_t port)
 {
     ip_addr_t addr;
-    addr.addr = ip;
+    addr.u_addr.ip4.addr = ip;
 
     if (_client)
         stop();
@@ -106,7 +106,10 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
     // if the default interface is down, tcp_connect exits early without
     // ever calling tcp_err
     // http://lists.gnu.org/archive/html/lwip-devel/2010-05/msg00001.html
-    netif* interface = ip_route(&addr);
+
+    ip_addr_t saddr;
+    saddr.u_addr.ip4.addr = 0;
+    netif* interface = ip_route(&saddr, &addr);
     if (!interface) {
       return 0;
     }

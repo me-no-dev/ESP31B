@@ -38,8 +38,8 @@
  * Please coordinate changes and requests with Ivan Delamer
  * <delamer@inicotech.com>
  */
-#ifndef __LWIP_ICMP6_H__
-#define __LWIP_ICMP6_H__
+#ifndef LWIP_HDR_ICMP6_H
+#define LWIP_HDR_ICMP6_H
 
 #include "lwip/opt.h"
 #include "lwip/pbuf.h"
@@ -105,8 +105,8 @@ enum icmp6_pp_code {
 #endif
 PACK_STRUCT_BEGIN
 struct icmp6_hdr {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u32_t data);
 } PACK_STRUCT_STRUCT;
@@ -121,8 +121,8 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct icmp6_echo_hdr {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u16_t id);
   PACK_STRUCT_FIELD(u16_t seqno);
@@ -149,4 +149,4 @@ void icmp6_param_problem(struct pbuf *p, enum icmp6_pp_code c, u32_t pointer);
 #endif
 
 
-#endif /* __LWIP_ICMP6_H__ */
+#endif /* LWIP_HDR_ICMP6_H */

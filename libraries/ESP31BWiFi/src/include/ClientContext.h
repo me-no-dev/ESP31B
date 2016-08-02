@@ -114,7 +114,7 @@ class ClientContext {
         uint32_t getRemoteAddress() {
             if(!_pcb) return 0;
 
-            return _pcb->remote_ip.ip4.addr;
+            return _pcb->remote_ip.u_addr.ip4.addr;
         }
 
         uint16_t getRemotePort() {
@@ -126,7 +126,7 @@ class ClientContext {
         uint32_t getLocalAddress() {
             if(!_pcb) return 0;
 
-            return _pcb->local_ip.ip4.addr;
+            return _pcb->local_ip.u_addr.ip4.addr;
         }
 
         uint16_t getLocalPort() {

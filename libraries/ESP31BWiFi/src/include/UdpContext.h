@@ -48,7 +48,7 @@ public:
     , _dest_port(0)
     {
         _pcb = udp_new();
-        _dest_addr.addr = 0;
+        _dest_addr.u_addr.ip4.addr = 0;
     }
 
     ~UdpContext()
@@ -323,7 +323,7 @@ private:
     }
 
     void _recv(udp_pcb *upcb, pbuf *pb,
-            ip_addr_t *addr, u16_t port)
+            const ip_addr_t *addr, u16_t port)
     {
         if (_rx_buf)
         {
@@ -347,7 +347,7 @@ private:
 
     static void _s_recv(void *arg,
             udp_pcb *upcb, pbuf *p,
-            ip_addr_t *addr, u16_t port)
+            const ip_addr_t *addr, u16_t port)
     {
         reinterpret_cast<UdpContext*>(arg)->_recv(upcb, p, addr, port);
     }

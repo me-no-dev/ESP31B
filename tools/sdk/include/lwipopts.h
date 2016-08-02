@@ -32,10 +32,11 @@
 #ifndef __LWIPOPTS_H__
 #define __LWIPOPTS_H__
 
+#include <stdlib.h>
 #define PBUF_RSV_FOR_WLAN
 #define EBUF_LWIP
-
 #define LWIP_ESP
+
 /*
    -----------------------------------------------
    ---------- Platform specific locking ----------
@@ -175,38 +176,33 @@ extern unsigned long os_random(void);
  */
 #define LWIP_DHCP                       1
 
-#define LWIP_DHCP_BOOTP_FILE            0
 
-/**
- * DHCP_MAXRTX: Maximum number of retries of current request.
- */
-#define DHCP_MAXRTX						6
-
+#define DHCP_MAXRTX						0   //(*(volatile uint32*)0x600011E0)
 /*
    ------------------------------------
    ---------- AUTOIP options ----------
    ------------------------------------
 */
-
 /*
    ----------------------------------
    ---------- SNMP options ----------
    ----------------------------------
 */
-
 /*
    ----------------------------------
    ---------- IGMP options ----------
    ----------------------------------
 */
-#define LWIP_IGMP 0
+/**
+ * LWIP_IGMP==1: Turn on IGMP module.
+ */
+#define LWIP_IGMP                       1
 
 /*
    ----------------------------------
    ---------- DNS options -----------
    ----------------------------------
 */
-
 /**
  * LWIP_DNS==1: Turn on DNS module. UDP must be available for DNS
  * transport.
@@ -218,7 +214,6 @@ extern unsigned long os_random(void);
    ---------- UDP options ----------
    ---------------------------------
 */
-
 /*
    ---------------------------------
    ---------- TCP options ----------
@@ -228,23 +223,26 @@ extern unsigned long os_random(void);
  * TCP_WND: The size of a TCP window.  This must be at least
  * (2 * TCP_MSS) for things to work well
  */
-#define TCP_WND                         (12 * TCP_MSS)
+#ifdef PERF
 
-/**
- * TCP_MAXRTX: Maximum number of retransmissions of data segments.
- */
-#define TCP_MAXRTX                      12
+extern unsigned char misc_prof_get_tcpw(void);
+extern unsigned char misc_prof_get_tcp_snd_buf(void);
+#define TCP_WND                         (misc_prof_get_tcpw()*TCP_MSS)
+#define TCP_SND_BUF                     (misc_prof_get_tcp_snd_buf()*TCP_MSS)
 
-/**
- * TCP_SYNMAXRTX: Maximum number of retransmissions of SYN segments.
- */
-#define TCP_SYNMAXRTX                   6
+#else
+
+#define TCP_WND                         (4 * TCP_MSS)
+#define TCP_SND_BUF                     (2 * TCP_MSS)
+
+#endif
+
 
 /**
  * TCP_QUEUE_OOSEQ==1: TCP will queue segments that arrive out of order.
  * Define to 0 if your device is low on memory.
  */
-#define TCP_QUEUE_OOSEQ                 0
+#define TCP_QUEUE_OOSEQ                 1
 
 /*
  *     LWIP_EVENT_API==1: The user defines lwip_tcp_event() to receive all
@@ -255,10 +253,14 @@ extern unsigned long os_random(void);
 #define TCP_MSS                         1460
 
 /**
- * TCP_SND_BUF: TCP sender buffer space (bytes).
- * To achieve good performance, this should be at least 2 * TCP_MSS.
+ * TCP_MAXRTX: Maximum number of retransmissions of data segments.
  */
-#define TCP_SND_BUF                     (4 * TCP_MSS)
+#define TCP_MAXRTX                      12  //(*(volatile uint32*)0x600011E8)
+
+/**
+ * TCP_SYNMAXRTX: Maximum number of retransmissions of SYN segments.
+ */
+#define TCP_SYNMAXRTX                   6   //(*(volatile uint32*)0x600011E4)
 
 /**
  * TCP_LISTEN_BACKLOG: Enable the backlog option for tcp listen pcb.
@@ -321,14 +323,14 @@ extern unsigned long os_random(void);
  * The stack size value itself is platform-dependent, but is passed to
  * sys_thread_new() when the thread is created.
  */
-#define TCPIP_THREAD_STACKSIZE          512
+#define TCPIP_THREAD_STACKSIZE          512			//not ok:384 
 
 /**
  * TCPIP_THREAD_PRIO: The priority assigned to the main tcpip thread.
  * The priority value itself is platform-dependent, but is passed to
  * sys_thread_new() when the thread is created.
  */
-#define TCPIP_THREAD_PRIO               (configMAX_PRIORITIES - 5)
+#define TCPIP_THREAD_PRIO               (configMAX_PRIORITIES-5)
 
 /**
  * TCPIP_MBOX_SIZE: The mailbox size for the tcpip thread messages
@@ -342,14 +344,15 @@ extern unsigned long os_random(void);
  * NETCONN_UDP. The queue size value itself is platform-dependent, but is passed
  * to sys_mbox_new() when the recvmbox is created.
  */
-#define DEFAULT_UDP_RECVMBOX_SIZE       6
+#define DEFAULT_UDP_RECVMBOX_SIZE       16
 
 /**
  * DEFAULT_TCP_RECVMBOX_SIZE: The mailbox size for the incoming packets on a
  * NETCONN_TCP. The queue size value itself is platform-dependent, but is passed
  * to sys_mbox_new() when the recvmbox is created.
  */
-#define DEFAULT_TCP_RECVMBOX_SIZE       6
+#define DEFAULT_TCP_RECVMBOX_SIZE       16
+//#define DEFAULT_TCP_RECVMBOX_SIZE       6
 
 /**
  * DEFAULT_ACCEPTMBOX_SIZE: The mailbox size for the incoming connections.
@@ -467,6 +470,11 @@ extern unsigned long os_random(void);
 #define SOCKETS_DEBUG                   LWIP_DBG_OFF
 
 /**
+ * ICMP_DEBUG: Enable debugging in icmp.c.
+ */
+#define ICMP_DEBUG                      LWIP_DBG_OFF
+
+/**
  * IP_DEBUG: Enable debugging for IP.
  */
 #define IP_DEBUG                        LWIP_DBG_OFF
@@ -495,5 +503,16 @@ extern unsigned long os_random(void);
  * DHCP_DEBUG: Enable debugging in dhcp.c.
  */
 #define DHCP_DEBUG                      LWIP_DBG_OFF
+//#define LWIP_DEBUG                      1
+//#define TCP_DEBUG                       LWIP_DBG_ON
+
+#define CHECKSUM_CHECK_UDP              0
+#define CHECKSUM_CHECK_IP               0
+
+#define HEAP_HIGHWAT                    6*1024
+
+
+
+#define SOC_SEND_LOG //printf
 
 #endif /* __LWIPOPTS_H__ */

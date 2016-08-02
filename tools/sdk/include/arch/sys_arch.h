@@ -43,12 +43,20 @@ typedef xSemaphoreHandle sys_mutex_t;
 typedef xQueueHandle sys_mbox_t;
 typedef xTaskHandle sys_thread_t;
 
+#define LWIP_COMPAT_MUTEX 0
+
+#if !LWIP_COMPAT_MUTEX
+#define sys_mutex_valid( x ) ( ( ( *x ) == NULL) ? pdFALSE : pdTRUE )
+#define sys_mutex_set_invalid( x ) ( ( *x ) = NULL )
+#endif
+
 #define sys_mbox_valid( x ) ( ( ( *x ) == NULL) ? pdFALSE : pdTRUE )
 #define sys_mbox_set_invalid( x ) ( ( *x ) = NULL )
 #define sys_sem_valid( x ) ( ( ( *x ) == NULL) ? pdFALSE : pdTRUE )
 #define sys_sem_set_invalid( x ) ( ( *x ) = NULL )
 
-#define LWIP_COMPAT_MUTEX 0
+void sys_arch_assert(const char *file, int line);
+uint32_t system_get_time(void);
 
 #endif /* __SYS_ARCH_H__ */
 

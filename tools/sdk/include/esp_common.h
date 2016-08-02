@@ -30,6 +30,8 @@
  *    - Misc APIs : Misc APIs
  *    - Sensor APIs : Temperature sensor and Touch pad sensor APIs
  *    - WiFi APIs : WiFi related APIs
+   *    - Phy APIs : ESP32 phy layer related APIs
+   *    - Regdomain APIs : ESP32 Regdomain APIs
    *    - SoftAP APIs : ESP32 Soft-AP APIs
    *    - Station APIs : ESP32 station APIs
    *    - Common APIs : WiFi common APIs
@@ -39,6 +41,9 @@
    *    - Boot APIs : Boot mode APIs
    *    - Hardware MAC APIs : Hardware MAC address APIs
  *    - Software timer APIs : Software timer APIs
+ *    - Sensor APIs : Temperature Sensor and Touch pad Sensor APIs
+ *    - SSC APIs : SSC APIs
+ *    - OTA APIs : OTA APIs
  *    - Driver APIs : Driver APIs
    *    - SPI Driver APIs : SPI Flash APIs
    *    - GPIO Driver APIs : GPIO APIs
@@ -93,6 +98,5 @@
 
 #include "smartconfig.h"
 #include "spi_flash.h"
-#include "esp_sensor.h"
 
 #endif

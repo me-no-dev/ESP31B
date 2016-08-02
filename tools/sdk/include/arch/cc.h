@@ -35,17 +35,9 @@
 #define __ARCH_CC_H__
 
 #include "c_types.h"
+#include "arch/sys_arch.h"
 
-#define EFAULT 14
-
-#define ERRNO
-#define LWIP_PROVIDE_ERRNO
-
-#if (1)
 #define BYTE_ORDER LITTLE_ENDIAN
-#else
-#define BYTE_ORDER BIG_ENDIAN
-#endif
 
 typedef unsigned long   mem_ptr_t;
 typedef int sys_prot_t;
@@ -58,27 +50,20 @@ typedef int sys_prot_t;
 #define U32_F "d"
 #define X32_F "x"
 
-//#define PACK_STRUCT_FIELD(x) x __attribute__((packed))
 #define PACK_STRUCT_FIELD(x) x
 #define PACK_STRUCT_STRUCT __attribute__((packed))
 #define PACK_STRUCT_BEGIN
 #define PACK_STRUCT_END
 
+#include <stdio.h>
+
+#define LWIP_PLATFORM_DIAG(x)   do {printf x;} while(0)
+#define LWIP_PLATFORM_ASSERT(x) do {printf(x); sys_arch_assert(__FILE__, __LINE__);} while(0)
+
 //#define LWIP_DEBUG
+#define LWIP_NOASSERT
+//#define LWIP_ERROR
 
-#ifdef LWIP_DEBUG
-#define LWIP_PLATFORM_DIAG(x)   do {os_printf x;} while(0)
-#define LWIP_PLATFORM_ASSERT(x) do {os_printf(x); sys_arch_assert(__FILE__, __LINE__);} while(0)
-#else
-#define LWIP_PLATFORM_DIAG(x)
-#define LWIP_PLATFORM_ASSERT(x)
-#endif
-
-#ifndef LWIP_PLATFORM_BYTESWAP
-#define LWIP_PLATFORM_BYTESWAP 1
-#endif
-
-#define LWIP_PLATFORM_HTONS(_n)  ((u16_t)((((_n) & 0xff) << 8) | (((_n) >> 8) & 0xff)))
-#define LWIP_PLATFORM_HTONL(_n)  ((u32_t)( (((_n) & 0xff) << 24) | (((_n) & 0xff00) << 8) | (((_n) >> 8)  & 0xff00) | (((_n) >> 24) & 0xff) ))
+#define LWIP_PROVIDE_ERRNO
 
 #endif /* __ARCH_CC_H__ */

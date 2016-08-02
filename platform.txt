@@ -26,7 +26,7 @@ compiler.S.flags=-c -g -x assembler-with-cpp -MMD -mlongcalls
 
 compiler.c.elf.cmd=xtensa-esp108-elf-gcc
 compiler.c.elf.flags="-L{compiler.sdk.path}/lib" -nostdlib "-T{compiler.sdk.path}/ld/{build.flash_ld}" -Wl,--no-check-sections -u call_user_start -Wl,-static -Wl,-wrap,system_fatal_exception_handler
-compiler.c.elf.libs=-lc -lgcc -lhal -lm -lfreertos -lmain -lnet80211 -lphy -lpp -lrtc -lwpa -lwpa2 -lwps -lsmartconfig -lupgrade -lcrypto {build.src_libs}
+compiler.c.elf.libs=-lc -lgcc -lhal -lm -lfreertos -lmain -lnet80211 -lphy -lphyrom -llwip_dep -lpp -lrtc -lwpa -lwpa2 -lwps -lsmartconfig -lupgrade -lcrypto {build.src_libs}
 
 compiler.as.cmd=xtensa-esp108-elf-as
 
@@ -42,7 +42,7 @@ compiler.python.cmd=python
 compiler.python.cmd.windows=python.exe
 
 # This can be overriden in boards.txt
-build.extra_flags=-DESP31B -DSPIFFS_START_ADDRESS={build.spiffs_start} -DSPIFFS_END_ADDRESS={build.spiffs_end} -DSPIFFS_BLOCK_SIZE={build.spiffs_blocksize} -DSPIFFS_PAGE_SIZE={build.spiffs_pagesize}
+build.extra_flags=-DESP31B -DSPIFFS_START_ADDRESS={build.spiffs_start} -DSPIFFS_END_ADDRESS={build.spiffs_end} -DSPIFFS_BLOCK_SIZE={build.spiffs_blocksize} -DSPIFFS_PAGE_SIZE={build.spiffs_pagesize} -DLWIP_ESP8266 
 
 # These can be overridden in platform.local.txt
 compiler.c.extra_flags=

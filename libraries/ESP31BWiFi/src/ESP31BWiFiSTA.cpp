@@ -203,13 +203,13 @@ bool ESP31BWiFiSTAClass::config(IPAddress local_ip, IPAddress gateway, IPAddress
 
     if(dns1 != (uint32_t)0x00000000) {
         // Set DNS1-Server
-        d.addr = static_cast<uint32_t>(dns1);
+        d.u_addr.ip4.addr = static_cast<uint32_t>(dns1);
         dns_setserver(0, &d);
     }
 
     if(dns2 != (uint32_t)0x00000000) {
         // Set DNS2-Server
-        d.addr = static_cast<uint32_t>(dns2);
+        d.u_addr.ip4.addr = static_cast<uint32_t>(dns2);
         dns_setserver(1, &d);
     }
 
@@ -370,7 +370,7 @@ IPAddress ESP31BWiFiSTAClass::gatewayIP() {
  */
 IPAddress ESP31BWiFiSTAClass::dnsIP(uint8_t dns_no) {
     ip_addr_t dns_ip = dns_getserver(dns_no);
-    return IPAddress(dns_ip.addr);
+    return IPAddress(dns_ip.u_addr.ip4.addr);
 }
 
 /**

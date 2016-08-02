@@ -41,8 +41,8 @@
  * <delamer@inicotech.com>
  */
 
-#ifndef __LWIP_ND6_H__
-#define __LWIP_ND6_H__
+#ifndef LWIP_HDR_ND6_H
+#define LWIP_HDR_ND6_H
 
 #include "lwip/opt.h"
 
@@ -84,7 +84,7 @@ struct nd6_neighbor_cache_entry {
 struct nd6_destination_cache_entry {
   ip6_addr_t destination_addr;
   ip6_addr_t next_hop_addr;
-  u32_t pmtu;
+  u16_t pmtu;
   u32_t age;
 };
 
@@ -132,11 +132,11 @@ struct nd6_q_entry {
 #endif
 PACK_STRUCT_BEGIN
 struct ns_header {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u32_t reserved);
-  PACK_STRUCT_FIELD(ip6_addr_p_t target_address);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t target_address);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -150,12 +150,12 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct na_header {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
-  PACK_STRUCT_FIELD(u8_t flags);
-  PACK_STRUCT_FIELD(u8_t reserved[3]);
-  PACK_STRUCT_FIELD(ip6_addr_p_t target_address);
+  PACK_STRUCT_FLD_8(u8_t flags);
+  PACK_STRUCT_FLD_8(u8_t reserved[3]);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t target_address);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -172,8 +172,8 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct rs_header {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u32_t reserved);
   /* Options follow. */
@@ -185,7 +185,7 @@ PACK_STRUCT_END
 
 /** Router advertisement message header. */
 #define ND6_RA_FLAG_MANAGED_ADDR_CONFIG (0x80)
-#define ND6_RA_FLAG_OTHER_STATEFUL_CONFIG (0x40)
+#define ND6_RA_FLAG_OTHER_CONFIG (0x40)
 #define ND6_RA_FLAG_HOME_AGENT (0x20)
 #define ND6_RA_PREFERENCE_MASK (0x18)
 #define ND6_RA_PREFERENCE_HIGH (0x08)
@@ -197,11 +197,11 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct ra_header {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
-  PACK_STRUCT_FIELD(u8_t current_hop_limit);
-  PACK_STRUCT_FIELD(u8_t flags);
+  PACK_STRUCT_FLD_8(u8_t current_hop_limit);
+  PACK_STRUCT_FLD_8(u8_t flags);
   PACK_STRUCT_FIELD(u16_t router_lifetime);
   PACK_STRUCT_FIELD(u32_t reachable_time);
   PACK_STRUCT_FIELD(u32_t retrans_timer);
@@ -218,12 +218,12 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct redirect_header {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t code);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u32_t reserved);
-  PACK_STRUCT_FIELD(ip6_addr_p_t target_address);
-  PACK_STRUCT_FIELD(ip6_addr_p_t destination_address);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t target_address);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t destination_address);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -239,9 +239,9 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct lladdr_option {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t length);
-  PACK_STRUCT_FIELD(u8_t addr[NETIF_MAX_HWADDR_LEN]);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t length);
+  PACK_STRUCT_FLD_8(u8_t addr[NETIF_MAX_HWADDR_LEN]);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -259,15 +259,15 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct prefix_option {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t length);
-  PACK_STRUCT_FIELD(u8_t prefix_length);
-  PACK_STRUCT_FIELD(u8_t flags);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t length);
+  PACK_STRUCT_FLD_8(u8_t prefix_length);
+  PACK_STRUCT_FLD_8(u8_t flags);
   PACK_STRUCT_FIELD(u32_t valid_lifetime);
   PACK_STRUCT_FIELD(u32_t preferred_lifetime);
-  PACK_STRUCT_FIELD(u8_t reserved2[3]);
-  PACK_STRUCT_FIELD(u8_t site_prefix_length);
-  PACK_STRUCT_FIELD(ip6_addr_p_t prefix);
+  PACK_STRUCT_FLD_8(u8_t reserved2[3]);
+  PACK_STRUCT_FLD_8(u8_t site_prefix_length);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t prefix);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -281,11 +281,11 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct redirected_header_option {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t length);
-  PACK_STRUCT_FIELD(u8_t reserved[6]);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t length);
+  PACK_STRUCT_FLD_8(u8_t reserved[6]);
   /* Portion of redirected packet follows. */
-  /* PACK_STRUCT_FIELD(u8_t redirected[8]); */
+  /* PACK_STRUCT_FLD_8(u8_t redirected[8]); */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -299,8 +299,8 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct mtu_option {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t length);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t length);
   PACK_STRUCT_FIELD(u16_t reserved);
   PACK_STRUCT_FIELD(u32_t mtu);
 } PACK_STRUCT_STRUCT;
@@ -316,24 +316,17 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct route_option {
-  PACK_STRUCT_FIELD(u8_t type);
-  PACK_STRUCT_FIELD(u8_t length);
-  PACK_STRUCT_FIELD(u8_t prefix_length);
-  PACK_STRUCT_FIELD(u8_t preference);
+  PACK_STRUCT_FLD_8(u8_t type);
+  PACK_STRUCT_FLD_8(u8_t length);
+  PACK_STRUCT_FLD_8(u8_t prefix_length);
+  PACK_STRUCT_FLD_8(u8_t preference);
   PACK_STRUCT_FIELD(u32_t route_lifetime);
-  PACK_STRUCT_FIELD(ip6_addr_p_t prefix);
+  PACK_STRUCT_FLD_S(ip6_addr_p_t prefix);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
 #  include "arch/epstruct.h"
 #endif
-
-/* the possible states of an IP address */
-#define IP6_ADDRESS_STATE_INVALID     (0)
-#define IP6_ADDRESS_STATE_VALID       (0x4)
-#define IP6_ADDRESS_STATE_PREFERRED   (0x5) /* includes valid */
-#define IP6_ADDRESS_STATE_DEPRECATED  (0x6) /* includes valid */
-#define IP6_ADDRESS_STATE_TENTATIV    (0x8)
 
 /** 1 second period */
 #define ND6_TMR_INTERVAL 1000
@@ -349,15 +342,14 @@ extern struct nd6_router_list_entry default_router_list[];
 extern u32_t reachable_time;
 extern u32_t retrans_timer;
 
-#define nd6_init() /* TODO should we init tables? */
 void nd6_tmr(void);
 void nd6_input(struct pbuf *p, struct netif *inp);
-s8_t nd6_get_next_hop_entry(ip6_addr_t * ip6addr, struct netif * netif);
-s8_t nd6_select_router(ip6_addr_t * ip6addr, struct netif * netif);
-u16_t nd6_get_destination_mtu(ip6_addr_t * ip6addr, struct netif * netif);
+s8_t nd6_get_next_hop_entry(const ip6_addr_t * ip6addr, struct netif * netif);
+s8_t nd6_select_router(const ip6_addr_t * ip6addr, struct netif * netif);
+u16_t nd6_get_destination_mtu(const ip6_addr_t * ip6addr, struct netif * netif);
 err_t nd6_queue_packet(s8_t neighbor_index, struct pbuf * p);
 #if LWIP_ND6_TCP_REACHABILITY_HINTS
-void nd6_reachability_hint(ip6_addr_t * ip6addr);
+void nd6_reachability_hint(const ip6_addr_t * ip6addr);
 #endif /* LWIP_ND6_TCP_REACHABILITY_HINTS */
 
 #ifdef __cplusplus
@@ -366,4 +358,4 @@ void nd6_reachability_hint(ip6_addr_t * ip6addr);
 
 #endif /* LWIP_IPV6 */
 
-#endif /* __LWIP_ND6_H__ */
+#endif /* LWIP_HDR_ND6_H */

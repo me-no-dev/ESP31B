@@ -204,7 +204,7 @@ bool ESP31BWiFiGenericClass::enableAP(bool enable){
 // ------------------------------------------------ Generic Network function ---------------------------------------------
 // -----------------------------------------------------------------------------------------------------------------------
 
-void wifi_dns_found_callback(const char *name, ip_addr_t *ipaddr, void *callback_arg);
+void wifi_dns_found_callback(const char *name, const ip_addr_t *ipaddr, void *callback_arg);
 
 /**
  * Resolve the given hostname to an IP address.
@@ -223,8 +223,8 @@ int ESP31BWiFiGenericClass::hostByName(const char* aHostname, IPAddress& aResult
     while(_dns_busy) delayMicroseconds(1);
     if(err == ERR_INPROGRESS && aResult){
       //found by search
-    } else if(err == ERR_OK && addr.addr) {
-      aResult = addr.addr;
+    } else if(err == ERR_OK && addr.u_addr.ip4.addr) {
+      aResult = addr.u_addr.ip4.addr;
     } else {
       return 0;
     }
@@ -237,9 +237,9 @@ int ESP31BWiFiGenericClass::hostByName(const char* aHostname, IPAddress& aResult
  * @param ipaddr
  * @param callback_arg
  */
-void wifi_dns_found_callback(const char *name, ip_addr_t *ipaddr, void *callback_arg) {
+void wifi_dns_found_callback(const char *name, const ip_addr_t *ipaddr, void *callback_arg) {
     if(ipaddr) {
-        (*reinterpret_cast<IPAddress*>(callback_arg)) = ipaddr->addr;
+        (*reinterpret_cast<IPAddress*>(callback_arg)) = ipaddr->u_addr.ip4.addr;
     }
     _dns_busy = false;
 }
