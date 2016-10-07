@@ -1,5 +1,7 @@
+#ESP32 Arduino can be found [here](https://github.com/espressif/arduino-esp32)
+###This repository is now defunct and kept for reference.
+
 ##Arduino core for ESP31B WiFi chip##
-===========================================
 ###This is a beta project for a beta chip. Do not take it as final or stable. Intention is to have a working environment to test the new hardware and prepare the core and peripheral libs for the upcoming final ESP32 release.###
 
 ###This project brings support for ESP31B chip to the Arduino environment. It lets you write sketches using familiar Arduino functions and libraries, and run them directly on ESP31B, no external microcontroller required.###
