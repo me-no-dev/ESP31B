@@ -4,6 +4,8 @@
 ##Arduino core for ESP31B WiFi chip##
 ###This is a beta project for a beta chip. Do not take it as final or stable. Intention is to have a working environment to test the new hardware and prepare the core and peripheral libs for the upcoming final ESP32 release.###
 
+[![Join the chat at https://gitter.im/me-no-dev/ESP31B](https://badges.gitter.im/me-no-dev/ESP31B.svg)](https://gitter.im/me-no-dev/ESP31B?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ###This project brings support for ESP31B chip to the Arduino environment. It lets you write sketches using familiar Arduino functions and libraries, and run them directly on ESP31B, no external microcontroller required.###
 
 - Compile the toolchain for your platform [Instructions](https://github.com/espressif/ESP32_RTOS_SDK#toolchain) or download one of the toolchains below:
